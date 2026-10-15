@@ -19,6 +19,7 @@ import {
   K8s,
   registerAppBarAction,
   registerPluginSettings,
+  useTranslation,
 } from '@kinvolk/headlamp-plugin/lib';
 import { NameValueTable } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import Box from '@mui/material/Box';
@@ -26,9 +27,17 @@ import TextField from '@mui/material/TextField';
 import Message from './Message';
 
 function PodCounter() {
+  // The strings come from locales/<lang>/translation.json; see "Translating
+  // a plugin" in docs/development/plugins/i18n.md.
+  const { t, ready } = useTranslation();
   const [pods, error] = K8s.ResourceClasses.Pod.useList();
-  const msg = pods === null ? 'Loading…' : pods.length.toString();
-  return <Message msg={msg} error={error !== null} />;
+  if (!ready) {
+    return null;
+  }
+  const msg = pods === null ? t('Loading…') : pods.length.toString();
+  return (
+    <Message msg={msg} error={error !== null} label={t('# Pods')} errorFallback={t('Uh, pods!?')} />
+  );
 }
 
 registerAppBarAction(PodCounter);
@@ -64,6 +73,7 @@ registerAppBarAction(function reorderNotifications({ actions }) {
  */
 function Settings(props) {
   const { data, onDataChange } = props;
+  const { t } = useTranslation();
 
   /**
    * Handles changes to the error message input field by invoking the onDataChange callback
@@ -77,15 +87,17 @@ function Settings(props) {
 
   const settingsRows = [
     {
-      name: 'Custom Error Message',
+      name: t('Custom Error Message'),
       value: (
         <TextField
           fullWidth
-          helperText="Enter the custom error message to display when the pod count cannot be retrieved."
+          helperText={t(
+            'Enter the custom error message to display when the pod count cannot be retrieved.'
+          )}
           value={data?.errorMessage ?? 'Uh... pods!?'}
           onChange={handleChange}
           variant="standard"
-          inputProps={{ 'aria-label': 'Custom Error Message' }}
+          inputProps={{ 'aria-label': t('Custom Error Message') }}
         />
       ),
     },

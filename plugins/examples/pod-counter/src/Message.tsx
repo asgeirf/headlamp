@@ -22,6 +22,10 @@ export interface MessageProps {
   msg: string;
   /** True if there's an error. */
   error: boolean;
+  /** Label shown before the message. */
+  label?: string;
+  /** Shown on error when no custom error message is configured. */
+  errorFallback?: string;
 }
 
 /**
@@ -33,14 +37,19 @@ export interface MessageProps {
  * See https://storybook.js.org/docs/web-components/writing-stories/build-pages-with-storybook
  *
  */
-export default function Message({ msg, error }: MessageProps) {
+export default function Message({
+  msg,
+  error,
+  label = '# Pods',
+  errorFallback = 'Uh, pods!?',
+}: MessageProps) {
   const config = new ConfigStore<{ errorMessage?: string }>('@kinvolk/headlamp-pod-counter');
   const useConf = config.useConfig();
   const conf = useConf();
 
   return (
     <Typography color="textPrimary" sx={{ fontStyle: 'italic' }}>
-      {!error ? `# Pods: ${msg}` : conf?.errorMessage ? conf?.errorMessage : 'Uh, pods!?'}
+      {!error ? `${label}: ${msg}` : conf?.errorMessage ? conf?.errorMessage : errorFallback}
     </Typography>
   );
 }
