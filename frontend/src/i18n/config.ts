@@ -111,6 +111,10 @@ export const supportedLanguages: {
     label: 'Bahasa Indonesia',
     dir: 'ltr',
   },
+  nb: {
+    label: 'Norsk bokmål',
+    dir: 'ltr',
+  },
   nl: {
     label: 'Nederlands',
     dir: 'ltr',

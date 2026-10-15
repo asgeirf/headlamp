@@ -28,6 +28,7 @@ import { MRT_Localization_IT } from 'material-react-table/locales/it';
 import { MRT_Localization_JA } from 'material-react-table/locales/ja';
 import { MRT_Localization_KO } from 'material-react-table/locales/ko';
 import { MRT_Localization_NL } from 'material-react-table/locales/nl';
+import { MRT_Localization_NO } from 'material-react-table/locales/no';
 import { MRT_Localization_PL } from 'material-react-table/locales/pl';
 import { MRT_Localization_PT } from 'material-react-table/locales/pt';
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
@@ -52,6 +53,7 @@ const tableLocalizationMap: Partial<Record<string, MRT_Localization>> = {
   'pt-PT': MRT_Localization_PT,
   'pt-BR': MRT_Localization_PT_BR,
   ko: MRT_Localization_KO,
+  nb: MRT_Localization_NO,
   nl: MRT_Localization_NL,
   pl: MRT_Localization_PL,
   ru: MRT_Localization_RU,
