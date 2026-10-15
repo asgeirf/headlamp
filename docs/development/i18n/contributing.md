@@ -246,9 +246,64 @@ Here's an example of using date formatting:
 
    This will create empty translation files for your new language.
 
-3. **Follow the update workflow above** to translate the strings
+3. **Register the language** in the frontend:
+   - `supportedLanguages` in `frontend/src/i18n/config.ts` (label in the
+     language itself, and text direction)
+   - the Material UI locale in `frontend/src/i18n/ThemeProviderNexti18n.tsx`
+   - the table locale in `frontend/src/components/common/Table/tableLocalization.ts`
+   - the expectations in `frontend/src/i18n/index.test.ts`
+
+4. **Follow the update workflow above** to translate the strings, or
+   [translate with kapi](#translating-with-kapi).
 
 Integrated components may need to be adjusted (MaterialUI/Monaco etc).
+
+## Translating with kapi
+
+The repository carries a [kapi](https://neokapi.github.io/kapi/) project:
+`kapi.yaml` at the root. It declares the English catalogs as the source, the
+target languages, and one collection per plugin that has its own catalogs.
+kapi reads the catalogs with its i18next reader, which keeps the keys,
+plurals and `{{interpolations}}` as they are and translates only the values.
+
+The approved terminology for each language is kept in
+`tools/i18n/terms/en-<lang>.terms.json`: the Kubernetes concepts, their
+Norwegian forms (klynge, klyngen, klynger) and the kinds that stay in English
+(Deployment, ConfigMap). Load it into your kapi workspace once, and again
+after it changes:
+
+```bash
+kapi terms import tools/i18n/terms/en-nb.terms.json
+```
+
+After you change a term with `kapi terms` commands, write the file back with
+`kapi terms export -o tools/i18n/terms/en-nb.terms.json` and commit it.
+
+To bring a language up to date after strings change:
+
+```bash
+npm run i18n                      # extract new keys into every locale
+kapi status                       # how much of each language is translated
+kapi extract --target-lang nb     # bilingual XLIFF 2 files in out/
+# translate the <target> of each unit, in any XLIFF tool
+kapi merge -i out/*.xliff         # writes the catalogs and the content memory
+kapi check --ship                 # terminology, placeholders, completeness
+```
+
+The XLIFF files carry the English text and the placeholders. Keep the
+`<1>…</1>` tags that `<Trans>` components use exactly as they appear in the
+source. `kapi status --review` lists the translations no reviewer has
+approved yet. Until a reviewer approves them, `kapi check --ship` reports
+strings that stay in English on purpose, such as `CPU` or `Deployments`, as
+identical to their source.
+
+With an AI provider configured (`kapi credentials add`), `kapi up` runs the
+same loop unattended, reusing earlier translations from the content memory and
+holding new ones to the imported terms.
+
+To add a target language, add it to `defaults.target_languages` in
+`kapi.yaml`, follow [For Adding a New Language](#for-adding-a-new-language),
+and add a terms file for it.
 
 ## Deprecated Tools
 
