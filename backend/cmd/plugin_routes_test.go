@@ -113,3 +113,44 @@ func TestLocalStaticPluginCacheControl(t *testing.T) {
 	require.Equal(t, http.StatusOK, recorder.Code)
 	require.Equal(t, "no-cache", recorder.Header().Get("Cache-Control"))
 }
+
+func TestLanguagePackRoutes(t *testing.T) {
+	packsDir := t.TempDir()
+	require.NoError(t, os.MkdirAll(filepath.Join(packsDir, "nb", "headlamp"), 0o750))
+	require.NoError(t, os.WriteFile(filepath.Join(packsDir, "nb", "pack.json"),
+		[]byte(`{"language":{"code":"nb"}}`), 0o600))
+	require.NoError(t, os.WriteFile(filepath.Join(packsDir, "nb", "headlamp", "translation.json"),
+		[]byte(`{"Close":"Lukk"}`), 0o600))
+
+	serve := func(packsDir, path string) *httptest.ResponseRecorder {
+		config := &HeadlampConfig{
+			HeadlampConfig: &headlampconfig.HeadlampConfig{
+				HeadlampCFG: &headlampconfig.HeadlampCFG{LanguagePacksDir: packsDir},
+			},
+		}
+		router := mux.NewRouter()
+		addLanguagePackRoutes(config, router)
+
+		recorder := httptest.NewRecorder()
+		router.ServeHTTP(recorder, httptest.NewRequestWithContext(t.Context(), http.MethodGet, path, nil))
+
+		return recorder
+	}
+
+	list := serve(packsDir, "/language-packs")
+	require.Equal(t, http.StatusOK, list.Code)
+	require.JSONEq(t,
+		`[{"name":"nb","manifest":{"language":{"code":"nb"}},"files":["headlamp/translation.json"]}]`,
+		list.Body.String())
+
+	file := serve(packsDir, "/language-packs/nb/headlamp/translation.json")
+	require.Equal(t, http.StatusOK, file.Code)
+	require.JSONEq(t, `{"Close":"Lukk"}`, file.Body.String())
+	require.Equal(t, "no-cache", file.Header().Get("Cache-Control"))
+
+	// If no directory is set, the list is empty and no files are served.
+	empty := serve("", "/language-packs")
+	require.Equal(t, http.StatusOK, empty.Code)
+	require.JSONEq(t, `[]`, empty.Body.String())
+	require.Equal(t, http.StatusNotFound, serve("", "/language-packs/nb/pack.json").Code)
+}

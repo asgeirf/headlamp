@@ -68,6 +68,7 @@ type HeadlampCFG struct {
 	PluginDir              string
 	UserPluginDir          string
 	StaticPluginDir        string
+	LanguagePacksDir       string
 	KubeConfigStore        kubeconfig.ContextStore
 	Telemetry              *telemetry.Telemetry
 	Metrics                *telemetry.Metrics

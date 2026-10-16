@@ -58,6 +58,7 @@ import (
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/headlampconfig"
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/helm"
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/kubeconfig"
+	"github.com/kubernetes-sigs/headlamp/backend/pkg/languagepacks"
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/logger"
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/plugins"
 	"github.com/kubernetes-sigs/headlamp/backend/pkg/portforward"
@@ -585,6 +586,50 @@ func addPluginRoutes(config *HeadlampConfig, r *mux.Router) {
 	}
 }
 
+// addLanguagePackRoutes serves the language packs in LanguagePacksDir. The list
+// of packs is served as JSON at "language-packs", and the pack files under
+// "language-packs/". If no directory is set, the list is empty, so the frontend
+// can always request it.
+func addLanguagePackRoutes(config *HeadlampConfig, r *mux.Router) {
+	r.HandleFunc("/language-packs", func(w http.ResponseWriter, r *http.Request) {
+		packs := []languagepacks.Pack{}
+
+		if config.LanguagePacksDir != "" {
+			var err error
+
+			packs, err = languagepacks.List(config.LanguagePacksDir)
+			if err != nil {
+				logger.Log(logger.LevelError, nil, err, "listing language packs")
+				http.Error(w, "listing language packs", http.StatusInternalServerError)
+
+				return
+			}
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+
+		if !config.UseInCluster {
+			w.Header().Set("Cache-Control", "no-cache")
+		}
+
+		if err := json.NewEncoder(w).Encode(packs); err != nil {
+			logger.Log(logger.LevelError, nil, err, "encoding language packs list")
+		}
+	}).Methods(http.MethodGet)
+
+	if config.LanguagePacksDir == "" {
+		return
+	}
+
+	packHandler := http.StripPrefix(config.BaseURL+"/language-packs/",
+		http.FileServer(http.Dir(config.LanguagePacksDir)))
+	if !config.UseInCluster {
+		packHandler = serveWithNoCacheHeader(packHandler)
+	}
+
+	r.PathPrefix("/language-packs/").Handler(packHandler)
+}
+
 // addPluginDeleteRoute registers a DELETE endpoint handler at "/plugins/{name}" for plugin deletion.
 // This endpoint is only available when running in local (non-cluster) mode.
 func addPluginDeleteRoute(config *HeadlampConfig, r *mux.Router) {
@@ -962,6 +1007,7 @@ func createHeadlampHandler(ctx context.Context, config *HeadlampConfig) http.Han
 	}
 
 	addPluginRoutes(config, r)
+	addLanguagePackRoutes(config, r)
 
 	// Setup port forwarding handlers.
 	r.Handle(

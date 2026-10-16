@@ -61,6 +61,7 @@ type Config struct {
 	StaticDir              string `koanf:"html-static-dir"`
 	PluginsDir             string `koanf:"plugins-dir"`
 	UserPluginsDir         string `koanf:"user-plugins-dir"`
+	LanguagePacksDir       string `koanf:"language-packs-dir"`
 	BaseURL                string `koanf:"base-url"`
 	SessionTTL             int    `koanf:"session-ttl"`
 	PodDebugImage          string `koanf:"pod-debug-image"`
@@ -623,6 +624,7 @@ func addGeneralFlags(f *flag.FlagSet, appName string) {
 	f.String("html-static-dir", "", "Static HTML directory to serve")
 	f.String("plugins-dir", defaultPluginDir(), "Specify the plugins directory to build the backend with")
 	f.String("user-plugins-dir", defaultUserPluginDir(), "Specify the user-installed plugins directory")
+	f.String("language-packs-dir", "", "Specify the language packs directory (translations for Headlamp and plugins)")
 	f.String("base-url", "", "Base URL path. eg. /headlamp")
 	f.Int("session-ttl", defaultSessionTTL, "The time in seconds for the session to be valid"+
 		"(Default: 86400/24h, Min: 1 , Max: 31536000/1yr )")

@@ -96,6 +96,7 @@ func buildHeadlampCFG(conf *config.Config, kubeConfigStore kubeconfig.ContextSto
 		Insecure:               conf.InsecureSsl,
 		PluginDir:              conf.PluginsDir,
 		UserPluginDir:          conf.UserPluginsDir,
+		LanguagePacksDir:       conf.LanguagePacksDir,
 		EnableHelm:             conf.EnableHelm,
 		EnableDynamicClusters:  conf.EnableDynamicClusters,
 		EnableClusterInventory: conf.EnableClusterInventory,
