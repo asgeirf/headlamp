@@ -165,6 +165,24 @@ To load packs from another directory, or when you run the app from source,
 set `HEADLAMP_CONFIG_LANGUAGE_PACKS_DIR`. The menus and dialogs use the
 strings in the packs' `app.json` files from startup.
 
+## Finding text that cannot be translated
+
+Headlamp has a pseudo-language, `en-XA`, for finding text that a pack cannot
+translate. To use it, open Headlamp with `?lng=en-XA`. Development builds
+also list it in the locale selector.
+
+In the pseudo-language, every string that Headlamp and plugins pass to `t()`
+is shown with accented letters and in brackets: «Settings» is shown as
+«[Šéţţîñĝš]». This includes strings that no catalog contains yet, and the
+table and Material UI strings that a pack translates with `tableLocale` and
+`muiLocale`. Values inserted into a string, such as a pod name, are not
+changed.
+
+Text that is still in plain English does not go through `t()`. Either the
+plugin renders it directly, or it passes the text to Headlamp without `t()`,
+as many plugins do with sidebar labels. To translate this text, the plugin
+must be changed.
+
 ## Updating a pack
 
 The keys of a pack are the English strings. When Headlamp or a plugin changes

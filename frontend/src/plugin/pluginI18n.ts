@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation as useReactI18nTranslation } from 'react-i18next';
 import { getAppUrl } from '../helpers/getAppUrl';
 import { getPackPluginLanguages, getPackPluginStrings } from '../i18n/languagePackCatalogs';
+import { isPseudoLanguage, pseudoLocalize, pseudoPostProcessor } from '../i18n/pseudoLocale';
 import type { PluginPackageHeadlampConfig } from './pluginsSlice';
 
 export interface PluginTranslations {
@@ -184,7 +185,7 @@ async function getPluginI18nInstance(
     return pluginI18nInstances[pluginName];
   }
 
-  const instance = createInstance();
+  const instance = createInstance().use(pseudoPostProcessor);
 
   // Only consider the locales a plugin explicitly declares via `headlamp.i18n`
   // in package.json. Without a declaration there are no translation files to
@@ -243,6 +244,8 @@ async function getPluginI18nInstance(
     // Always return the key if no translation is found, which works well
     // for plugins that already have English strings as their keys/content
     returnEmptyString: false,
+    // Marks the plugin's text while the pseudo-language is in use.
+    postProcess: ['pseudo'],
     // Don't save missing keys to avoid console noise
     saveMissing: false,
   });
@@ -261,7 +264,7 @@ export function registerPluginTranslations(pluginName: string, translations: Plu
     `registerPluginTranslations is deprecated. Plugin ${pluginName} should use automatic translation loading instead.`
   );
 
-  const instance = createInstance();
+  const instance = createInstance().use(pseudoPostProcessor);
   const namespace = pluginName;
 
   instance.init({
@@ -280,6 +283,8 @@ export function registerPluginTranslations(pluginName: string, translations: Plu
     },
     debug: false,
     returnEmptyString: false,
+    // Marks the plugin's text while the pseudo-language is in use.
+    postProcess: ['pseudo'],
     saveMissing: false,
   });
 
@@ -435,7 +440,9 @@ export function useTranslation(pluginNameParam?: string): UseTranslationResult {
     // example the plugin has no translations or initialization failed),
     // return the original key so the UI still shows a reasonable value.
     if (!instance || !pluginName) {
-      return key;
+      // A language pack can still translate text passed to t(), so the
+      // pseudo-language transforms it.
+      return isPseudoLanguage() ? pseudoLocalize(key) : key;
     }
 
     return instance.t(key, options);

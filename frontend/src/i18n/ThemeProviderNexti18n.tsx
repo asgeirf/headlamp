@@ -42,6 +42,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from './config';
 import { getRegisteredLocale } from './localeRegistry';
+import { isPseudoLanguage, pseudoLocalizeAll } from './pseudoLocale';
 
 /**
  * Returns the Material-UI locale object for a given language code.
@@ -50,6 +51,9 @@ import { getRegisteredLocale } from './localeRegistry';
  * @returns A Material-UI locale object, defaults to enUS if locale is unsupported.
  */
 function getLocale(locale: string | undefined): typeof enUS {
+  if (isPseudoLanguage()) {
+    return pseudoLocalizeAll(enUS);
+  }
   const registered = getRegisteredLocale(locale)?.muiLocale;
   if (registered) {
     return registered;

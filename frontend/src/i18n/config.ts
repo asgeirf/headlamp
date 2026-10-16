@@ -20,6 +20,7 @@ import { initReactI18next } from 'react-i18next';
 import sharedConfig from './i18nextSharedConfig.mjs';
 import { getPackStrings } from './languagePackCatalogs';
 import { withRegisteredStrings } from './localeRegistry';
+import { pseudoPostProcessor } from './pseudoLocale';
 
 const en = {}; // To keep TS happy.
 
@@ -171,6 +172,7 @@ i18next
   // detect user language https://github.com/i18next/i18next-browser-languageDetector
   .use(LanguageDetector)
   .use(initReactI18next)
+  .use(pseudoPostProcessor)
   // Use dynamic imports (webpack code splitting) to load javascript bundles.
   // @see https://www.i18next.com/misc/creating-own-plugins#backend
   // @see https://webpack.js.org/guides/code-splitting/
@@ -224,6 +226,8 @@ i18next
       },
     },
     returnEmptyString: false,
+    // Applies the pseudo-language transform when the pseudo-language is selected.
+    postProcess: ['pseudo'],
     // https://react.i18next.com/latest/i18next-instance
     // https://www.i18next.com/overview/configuration-options
     react: {

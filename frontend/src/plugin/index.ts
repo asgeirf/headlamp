@@ -44,7 +44,7 @@ import { addBackstageAuthHeaders } from '../helpers/addBackstageAuthHeaders';
 import { getAppUrl } from '../helpers/getAppUrl';
 import { isElectron } from '../helpers/isElectron';
 import i18next from '../i18n/config';
-import { loadLanguagePacks } from '../i18n/languagePacks';
+import { addPseudoLanguage, loadLanguagePacks } from '../i18n/languagePacks';
 import * as K8s from '../lib/k8s';
 import * as ApiProxy from '../lib/k8s/apiProxy';
 import * as Crd from '../lib/k8s/crd';
@@ -494,6 +494,7 @@ export async function fetchAndExecutePlugins(
   const headers = addBackstageAuthHeaders();
   // The language packs are fetched in parallel with the plugins, and are added
   // before any plugin runs.
+  addPseudoLanguage();
   const languagePacksLoading = loadLanguagePacks(headers);
 
   // Backend now returns plugin metadata with path, type, and name

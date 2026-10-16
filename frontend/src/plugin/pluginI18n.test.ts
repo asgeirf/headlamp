@@ -15,6 +15,7 @@
  */
 
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
+import i18next from 'i18next';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { addPluginCatalog } from '../i18n/languagePackCatalogs';
@@ -230,6 +231,51 @@ describe('pluginI18n', () => {
 
     // The user ended up on 'fr', so the late 'de' completion must not win.
     expect(instance?.language).toBe('fr');
+  });
+
+  it('transforms the text of every plugin that uses t() in the pseudo-language', async () => {
+    fetchSpy.mockImplementation(async (url: string) => ({
+      ok: true,
+      status: 200,
+      json: async () => (String(url).includes('/locales/en/') ? { Hello: 'Hello there' } : {}),
+    }));
+    await initializePluginI18n(
+      'pseudo-plugin',
+      { name: 'pseudo-plugin', headlamp: { i18n: ['en'] } },
+      '/plugins/pseudo-plugin'
+    );
+    await initializePluginI18n(
+      'pseudo-no-i18n',
+      { name: 'pseudo-no-i18n' },
+      '/plugins/pseudo-no-i18n'
+    );
+
+    function Widget({ plugin }: { plugin: string }) {
+      const { t } = useTranslation(plugin);
+      return React.createElement('div', { 'data-testid': plugin }, t('Hello') as string);
+    }
+
+    // As in Headlamp, the pseudo-language is selected and resolves to English.
+    mainI18n.language = 'en-XA';
+    mainI18n.resolvedLanguage = 'en';
+    const selected = i18next.language;
+    i18next.language = 'en-XA';
+    render(
+      React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(Widget, { plugin: 'pseudo-plugin' }),
+        React.createElement(Widget, { plugin: 'pseudo-no-i18n' })
+      )
+    );
+
+    // From the plugin's own catalog, with the plugin's i18next instance.
+    await waitFor(() =>
+      expect(screen.getByTestId('pseudo-plugin').textContent).toBe('[Ĥéļļö ţĥéŕé]')
+    );
+    // A plugin without languages in headlamp.i18n still passes its text to t().
+    await waitFor(() => expect(screen.getByTestId('pseudo-no-i18n').textContent).toBe('[Ĥéļļö]'));
+    i18next.language = selected;
   });
 
   it("translates a plugin from a language pack, overriding the plugin's own catalog", async () => {

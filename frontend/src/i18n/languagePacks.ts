@@ -17,6 +17,7 @@
 import type { Localization } from '@mui/material/locale';
 import type { MRT_Localization } from 'material-react-table';
 import { getAppUrl } from '../helpers/getAppUrl';
+import { isDevMode } from '../helpers/isDevMode';
 import i18next, { requestedLanguages, supportedLanguages } from './config';
 import sharedConfig from './i18nextSharedConfig.mjs';
 import {
@@ -26,7 +27,8 @@ import {
   setLanguagePackHeaders,
 } from './languagePackCatalogs';
 import { addRegisteredLocale, getRegisteredLocale } from './localeRegistry';
-import { addLanguage, findCode, isRequestedFirst } from './registerLocale';
+import { PSEUDO_LANGUAGE } from './pseudoLocale';
+import { addLanguage, addLocale, findCode, isRequestedFirst } from './registerLocale';
 
 /** A language pack's pack.json. */
 export interface LanguagePackManifest {
@@ -232,4 +234,21 @@ export async function loadLanguagePacks(headers: HeadersInit = {}) {
   if (Array.isArray(packs) && packs.length > 0) {
     await addLanguagePacks(packs as LanguagePack[]);
   }
+}
+
+/**
+ * Adds the pseudo-language, which marks every translatable string. It is added
+ * when the user requests it with `?lng=en-XA`, and in development builds, where
+ * it is also listed in the locale selector.
+ */
+export function addPseudoLanguage() {
+  const requested = requestedLanguages.some(
+    lng => lng.toLowerCase() === PSEUDO_LANGUAGE.toLowerCase()
+  );
+  if ((!requested && !isDevMode()) || supportedLanguages[PSEUDO_LANGUAGE]) {
+    return;
+  }
+  // The catalogs are empty, so every string falls back to English, and the
+  // pseudo post-processor transforms it.
+  addLocale({ code: PSEUDO_LANGUAGE, label: 'Pseudo-language (en-XA)', resources: {} });
 }
