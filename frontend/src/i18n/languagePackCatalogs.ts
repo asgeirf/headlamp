@@ -174,3 +174,65 @@ export function getPackPluginLanguages(pluginName: string): string[] {
 export function getPackPluginStrings(pluginName: string, code: string): Promise<Strings> {
   return merged(catalogs.get(code.toLowerCase())?.plugins.get(pluginName));
 }
+
+/** A plugin that is newer than the version a language pack was translated from. */
+export interface PluginUpdate {
+  name: string;
+  translatedFrom: string;
+  installed: string;
+}
+
+/** The versions a language pack was translated from, as shown in Settings. */
+export interface LanguagePackInfo {
+  name: string;
+  version?: string;
+  /** The Headlamp version the pack was translated from. */
+  headlamp?: string;
+  /** Whether that version is older than the running Headlamp. */
+  older?: boolean;
+  /** The installed plugins that are newer than the versions the pack was translated from. */
+  updatedPlugins?: PluginUpdate[];
+}
+
+const packInfo = new Map<string, LanguagePackInfo[]>();
+const infoListeners = new Set<() => void>();
+let infoVersion = 0;
+
+/** Adds the information about a language pack for its language. */
+export function addLanguagePackInfo(code: string, info: LanguagePackInfo) {
+  const key = code.toLowerCase();
+  packInfo.set(key, [...(packInfo.get(key) ?? []), info]);
+  infoVersion++;
+  infoListeners.forEach(listener => listener());
+}
+
+/** Sets the plugins that are newer than the versions a language pack was translated from. */
+export function setUpdatedPlugins(code: string, packName: string, updated: PluginUpdate[]) {
+  const key = code.toLowerCase();
+  packInfo.set(
+    key,
+    (packInfo.get(key) ?? []).map(info =>
+      info.name === packName ? { ...info, updatedPlugins: updated } : info
+    )
+  );
+  infoVersion++;
+  infoListeners.forEach(listener => listener());
+}
+
+/** Returns the language packs for a language, in the order they are applied. */
+export function getLanguagePackInfo(code: string | undefined): LanguagePackInfo[] {
+  return (code && packInfo.get(code.toLowerCase())) || [];
+}
+
+/** Calls the listener when pack information changes. Returns the unsubscribe function. */
+export function subscribeLanguagePackInfo(listener: () => void) {
+  infoListeners.add(listener);
+  return () => {
+    infoListeners.delete(listener);
+  };
+}
+
+/** Returns a number that changes when pack information changes, for useSyncExternalStore. */
+export function getLanguagePackInfoVersion() {
+  return infoVersion;
+}

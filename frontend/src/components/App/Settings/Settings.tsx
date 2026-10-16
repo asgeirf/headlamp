@@ -148,7 +148,9 @@ export default function Settings() {
         rows={[
           {
             name: t('translation|Language'),
-            value: <LocaleSelect showFullNames formControlProps={{ className: '' }} />,
+            value: (
+              <LocaleSelect showFullNames showLanguagePacks formControlProps={{ className: '' }} />
+            ),
           },
           {
             name: t('translation|Resource details view'),

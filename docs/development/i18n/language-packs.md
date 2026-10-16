@@ -45,7 +45,10 @@ language-packs/
   "language": { "code": "nb", "label": "Norsk bokmål", "dir": "ltr" },
   "muiLocale": "nbNO",
   "tableLocale": "no",
-  "translatedFrom": { "headlamp": "0.46.0" }
+  "translatedFrom": {
+    "headlamp": "0.46.0",
+    "plugins": { "@kinvolk/headlamp-pod-counter": "0.0.1" }
+  }
 }
 ```
 
@@ -64,10 +67,9 @@ language-packs/
 - `version`: The version of the pack. Headlamp adds it to the URLs of the
   pack's files, so that browsers do not use cached files from an older
   version. Increase it every time the files change.
-- `translatedFrom.headlamp`: The Headlamp version that the pack was
-  translated from. For a language that Headlamp includes, Headlamp logs a
-  warning if this version is older than the running Headlamp, because the
-  pack's strings then replace translations that Headlamp may have fixed since.
+- `translatedFrom`: The versions the pack was translated from. `headlamp` is
+  the Headlamp version, and `plugins` maps each plugin's package name to its
+  version. See [Updating a pack](#updating-a-pack).
 
 The Material UI and table locales are loaded the first time the language is
 used.
@@ -217,11 +219,29 @@ callback, are not translated.
 
 ## Updating a pack
 
-The keys of a pack are the English strings. When Headlamp or a plugin changes
-its English strings, the changed strings are shown in English until the pack
-is updated. Keys that are no longer used are ignored.
+The keys of a pack are the English strings, so a pack continues to work when
+Headlamp or a plugin is updated. New and changed English strings are shown in
+English, or in the plugin's own translation if it has one, until the pack is
+updated. Keys that are no longer used are ignored.
 
-To find the strings to translate, compare the pack's catalogs with the
-English catalogs: Headlamp's in `frontend/src/i18n/locales/en/`, and each
-plugin's in its `locales/en/` directory. For a plugin without an English
-catalog, use the strings that its source code passes to `t()`.
+Headlamp compares `translatedFrom` with the versions that are running:
+
+- In Settings, under the language selector, Headlamp lists the packs for the
+  selected language, with their versions and the Headlamp version they were
+  translated from. A note is shown if Headlamp is newer than that version,
+  and for each installed plugin that is newer than the version the pack was
+  translated from.
+- The same information is logged to the browser console. For a language that
+  Headlamp includes, an older pack is logged as a warning, because its strings
+  also replace translations that Headlamp may have fixed since. A pack that
+  does not set `translatedFrom.headlamp` is also logged.
+
+To update a pack:
+
+1. Compare its catalogs with the English catalogs: Headlamp's in
+   `frontend/src/i18n/locales/en/`, and each plugin's in its `locales/en/`
+   directory. For a plugin without an English catalog, use the strings that
+   its source code passes to `t()`.
+2. Translate the new strings.
+3. Increase `version`, and set `translatedFrom` to the versions you
+   translated from.

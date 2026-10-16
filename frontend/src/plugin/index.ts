@@ -44,7 +44,7 @@ import { addBackstageAuthHeaders } from '../helpers/addBackstageAuthHeaders';
 import { getAppUrl } from '../helpers/getAppUrl';
 import { isElectron } from '../helpers/isElectron';
 import i18next from '../i18n/config';
-import { addPseudoLanguage, loadLanguagePacks } from '../i18n/languagePacks';
+import { addPseudoLanguage, announcePluginTargets, loadLanguagePacks } from '../i18n/languagePacks';
 import * as K8s from '../lib/k8s';
 import * as ApiProxy from '../lib/k8s/apiProxy';
 import * as Crd from '../lib/k8s/crd';
@@ -782,6 +782,7 @@ export async function fetchAndExecutePlugins(
     console.error('Failed to load language packs:', error);
   });
   onLanguagePacksLoaded();
+  announcePluginTargets(packageInfos.map(info => ({ name: info.name, version: info.version })));
 
   infoForRunningPlugins.forEach(runPluginInner);
 

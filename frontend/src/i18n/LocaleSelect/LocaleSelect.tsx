@@ -15,12 +15,18 @@
  */
 
 import FormControl, { FormControlProps } from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from '../config';
+import {
+  getLanguagePackInfo,
+  getLanguagePackInfoVersion,
+  subscribeLanguagePackInfo,
+} from '../languagePackCatalogs';
 import { getRegisteredLocalesVersion, subscribeRegisteredLocales } from '../localeRegistry';
 
 export interface LocaleSelectProps {
@@ -30,14 +36,40 @@ export interface LocaleSelectProps {
   showFullNames?: boolean;
   /** Additional props to pass to the underlying Material-UI `FormControl` component. */
   formControlProps?: FormControlProps;
+  /** Whether to show the language packs for the selected language, with the versions they were translated from. */
+  showLanguagePacks?: boolean;
+}
+
+/**
+ * Formats a value from a pack or a plugin's package for display in Settings:
+ * as text, truncated to 80 characters.
+ */
+function displayText(text: unknown) {
+  const characters = Array.from(String(text ?? ''));
+  return characters.length > 80 ? `${characters.slice(0, 79).join('')}…` : characters.join('');
 }
 
 /**
  * A UI for selecting the locale with i18next
  */
 export default function LocaleSelect(props: LocaleSelectProps) {
-  const { formControlProps, showFullNames } = props;
+  const { formControlProps, showFullNames, showLanguagePacks } = props;
   const { t, i18n } = useTranslation();
+  const packInfoVersion = React.useSyncExternalStore(
+    subscribeLanguagePackInfo,
+    getLanguagePackInfoVersion
+  );
+  const packs = React.useMemo(
+    () => {
+      if (!showLanguagePacks) {
+        return [];
+      }
+      const selected = getLanguagePackInfo(i18n.language);
+      return selected.length > 0 ? selected : getLanguagePackInfo(i18n.resolvedLanguage);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showLanguagePacks, i18n.language, i18n.resolvedLanguage, packInfoVersion]
+  );
   // Plugins can add languages after the first render.
   const localesVersion = React.useSyncExternalStore(
     subscribeRegisteredLocales,
@@ -112,6 +144,32 @@ export default function LocaleSelect(props: LocaleSelectProps) {
             </MenuItem>
           ))}
       </Select>
+      {packs.map(pack => {
+        const name = displayText(pack.version ? `${pack.name} ${pack.version}` : pack.name);
+        return (
+          <FormHelperText key={pack.name}>
+            {pack.headlamp
+              ? t('Language pack {{pack}}, for Headlamp {{headlamp}}', {
+                  pack: name,
+                  headlamp: displayText(pack.headlamp),
+                })
+              : t('Language pack {{pack}}', { pack: name })}
+            {pack.older &&
+              ` ${t('Made for an earlier Headlamp: some text may be in English or out of date.')}`}
+            {(pack.updatedPlugins ?? []).map(
+              plugin =>
+                ` ${t(
+                  'Made for {{plugin}} {{version}}, and {{installed}} is installed: some of its text may be in English.',
+                  {
+                    plugin: displayText(plugin.name),
+                    version: displayText(plugin.translatedFrom),
+                    installed: displayText(plugin.installed),
+                  }
+                )}`
+            )}
+          </FormHelperText>
+        );
+      })}
     </FormControl>
   );
 }

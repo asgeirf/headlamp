@@ -16,8 +16,13 @@
 
 import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest';
 import { supportedLanguages } from './config';
-import { CATALOG_TIMEOUT_MS, getPackStrings } from './languagePackCatalogs';
-import { addLanguagePacks, LIST_TIMEOUT_MS, loadLanguagePacks } from './languagePacks';
+import { CATALOG_TIMEOUT_MS, getLanguagePackInfo, getPackStrings } from './languagePackCatalogs';
+import {
+  addLanguagePacks,
+  announcePluginTargets,
+  LIST_TIMEOUT_MS,
+  loadLanguagePacks,
+} from './languagePacks';
 
 vi.mock('../helpers/getProductInfo', () => ({
   getVersion: () => ({ VERSION: '0.46.0', GIT_VERSION: '' }),
@@ -136,5 +141,73 @@ describe('language pack safety', () => {
     const messages = warn.mock.calls.map(call => String(call[0]));
     expect(messages.filter(message => message.includes('old-de'))).toHaveLength(1);
     expect(messages.some(message => message.includes('current-fr'))).toBe(false);
+  });
+
+  it('records the version each pack was translated from, and logs when it is older', async () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, json: async () => ({}) }))
+    );
+    await addLanguagePacks([
+      {
+        name: 'old-xo',
+        manifest: {
+          version: '1',
+          language: { code: 'xo', label: 'Old' },
+          translatedFrom: { headlamp: '0.45.0', plugins: { '@scope/flux': '0.6.0' } },
+        },
+        files: ['headlamp/translation.json'],
+      },
+      { name: 'untagged-xu', manifest: { language: { code: 'xu', label: 'Untagged' } }, files: [] },
+    ]);
+
+    expect(getLanguagePackInfo('xo')).toEqual([
+      { name: 'old-xo', version: '1', headlamp: '0.45.0', older: true },
+    ]);
+    expect(getLanguagePackInfo('XU')).toEqual([
+      { name: 'untagged-xu', version: undefined, headlamp: undefined, older: false },
+    ]);
+    const notes = info.mock.calls.map(call => String(call[0]));
+    expect(
+      notes.some(note => note.includes('"old-xo"') && note.includes('are shown in English'))
+    ).toBe(true);
+    expect(
+      notes.some(note => note.includes('"untagged-xu": translatedFrom.headlamp is not set'))
+    ).toBe(true);
+
+    announcePluginTargets([
+      { name: '@scope/flux', version: '0.7.0' },
+      { name: '@scope/other', version: '9.0.0' },
+    ]);
+    expect(getLanguagePackInfo('xo')[0].updatedPlugins).toEqual([
+      { name: '@scope/flux', translatedFrom: '0.6.0', installed: '0.7.0' },
+    ]);
+    info.mockRestore();
+  });
+
+  it('ignores values in pack.json that are not text', async () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, json: async () => ({}) }))
+    );
+    await addLanguagePacks([
+      {
+        name: 'odd-xq',
+        manifest: {
+          version: 7,
+          language: { code: 'xq', label: 'Odd' },
+          translatedFrom: { headlamp: 46, plugins: { '@scope/a': 1, '@scope/b': null } },
+        } as any,
+        files: [],
+      },
+    ]);
+    expect(getLanguagePackInfo('xq')).toEqual([
+      { name: 'odd-xq', version: undefined, headlamp: undefined, older: false },
+    ]);
+    expect(() => announcePluginTargets([{ name: '@scope/a', version: '2.0.0' }])).not.toThrow();
+    expect(getLanguagePackInfo('xq')[0].updatedPlugins).toBeUndefined();
+    info.mockRestore();
   });
 });

@@ -24,10 +24,13 @@ import i18next, { requestedLanguages, supportedLanguages } from './config';
 import sharedConfig from './i18nextSharedConfig.mjs';
 import {
   addHeadlampCatalog,
+  addLanguagePackInfo,
   addPackLanguage,
   addPluginCatalog,
   fetchJsonWithTimeout,
+  type PluginUpdate,
   setLanguagePackHeaders,
+  setUpdatedPlugins,
 } from './languagePackCatalogs';
 import { addRegisteredLocale, getRegisteredLocale } from './localeRegistry';
 import { PSEUDO_LANGUAGE } from './pseudoLocale';
@@ -48,7 +51,10 @@ export interface LanguagePackManifest {
   muiLocale?: string;
   /** The name of the table locale, a directory in material-react-table/locales, for example 'no'. */
   tableLocale?: string;
-  /** The versions the pack was translated from: the Headlamp version, and each plugin's version by package name. */
+  /**
+   * The versions the pack was translated from: the Headlamp version, and each
+   * plugin's version by package name.
+   */
   translatedFrom?: { headlamp?: string; plugins?: Record<string, string> };
 }
 
@@ -134,18 +140,76 @@ function packFileUrl(pack: LanguagePack, file: string) {
   return `${getAppUrl()}language-packs/${path}${query}`;
 }
 
+// The added packs, to compare with the installed plugins.
+const addedPacks: { pack: LanguagePack; code: string }[] = [];
+
 /**
- * Logs a warning if a pack changes a language that Headlamp includes and was
- * translated from an older Headlamp version. The pack's strings still replace
- * Headlamp's strings, including translations that Headlamp has fixed since.
+ * Records the Headlamp version that a pack was translated from, for Settings.
+ * Logs a message if the pack does not set the version, or if the version is
+ * older than the running Headlamp. For a language that Headlamp does not
+ * include, strings added since that version are shown in English. For a
+ * language that Headlamp includes, the pack also replaces translations that
+ * Headlamp may have fixed since, so a warning is logged.
  */
-function warnIfStale(pack: LanguagePack, code: string) {
-  const translatedFrom = semver.coerce(pack.manifest.translatedFrom?.headlamp);
+function announceTarget(pack: LanguagePack, code: string, changesIncluded: boolean) {
+  // pack.json is not validated against a schema, so check the type of each value.
+  const declared = pack.manifest.translatedFrom?.headlamp;
+  const target = typeof declared === 'string' ? declared : undefined;
+  const translatedFrom = semver.coerce(target);
   const running = semver.coerce(getVersion().VERSION);
-  if (translatedFrom && running && semver.lt(translatedFrom, running)) {
+  const older = !!(translatedFrom && running && semver.lt(translatedFrom, running));
+  const version = typeof pack.manifest.version === 'string' ? pack.manifest.version : undefined;
+  addLanguagePackInfo(code, { name: pack.name, version, headlamp: target, older });
+
+  if (!target) {
+    console.info(`Language pack "${pack.name}": translatedFrom.headlamp is not set in pack.json.`);
+  } else if (older && changesIncluded) {
     console.warn(
-      `Language pack "${pack.name}" replaces Headlamp's "${code}" strings and was translated from Headlamp ${translatedFrom.version}, but this is Headlamp ${running.version}. Headlamp's own "${code}" translations may be newer.`
+      `Language pack "${
+        pack.name
+      }" replaces Headlamp's "${code}" strings and was translated from Headlamp ${target}, but this is Headlamp ${
+        running!.version
+      }. Headlamp's own "${code}" translations may be newer.`
     );
+  } else if (older) {
+    console.info(
+      `Language pack "${pack.name}" was translated from Headlamp ${target}, but this is Headlamp ${
+        running!.version
+      }. Strings added since then are shown in English.`
+    );
+  }
+}
+
+/**
+ * Compares the plugin versions that each pack was translated from with the
+ * installed plugins. New strings in a newer plugin are shown in English, so a
+ * message is logged and the plugin is listed in Settings.
+ *
+ * @param installed - The installed plugins, by package name and version.
+ */
+export function announcePluginTargets(installed: { name: string; version?: string }[]) {
+  const versions = new Map(installed.map(plugin => [plugin.name, plugin.version]));
+  for (const { pack, code } of addedPacks) {
+    const updated: PluginUpdate[] = [];
+    const plugins = pack.manifest.translatedFrom?.plugins;
+    for (const [name, target] of Object.entries(
+      plugins && typeof plugins === 'object' ? plugins : {}
+    )) {
+      if (typeof target !== 'string') {
+        continue;
+      }
+      const translatedFrom = semver.coerce(target);
+      const current = semver.coerce(versions.get(name));
+      if (translatedFrom && current && semver.lt(translatedFrom, current)) {
+        updated.push({ name, translatedFrom: target, installed: current.version });
+        console.info(
+          `Language pack "${pack.name}" was translated from ${name} ${target}, but ${name} ${current.version} is installed. Strings added since then are shown in English.`
+        );
+      }
+    }
+    if (updated.length > 0) {
+      setUpdatedPlugins(code, pack.name, updated);
+    }
   }
 }
 
@@ -180,9 +244,9 @@ export async function addLanguagePacks(packs: LanguagePack[]) {
       }
       addLanguage(code, label, dir === 'rtl' ? 'rtl' : 'ltr');
       added.push(code);
-    } else if (pack.files?.some(file => HEADLAMP_CATALOG.test(file))) {
-      warnIfStale(pack, code);
     }
+    announceTarget(pack, code, !!known && !!pack.files?.some(file => HEADLAMP_CATALOG.test(file)));
+    addedPacks.push({ pack, code });
 
     addPackLanguage(code);
     for (const file of pack.files ?? []) {
