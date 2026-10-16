@@ -37,6 +37,7 @@ import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 import { MRT_Localization_TR } from 'material-react-table/locales/tr';
 import { MRT_Localization_ZH_HANS } from 'material-react-table/locales/zh-Hans';
 import { MRT_Localization_ZH_HANT } from 'material-react-table/locales/zh-Hant';
+import { getRegisteredLocale } from '../../../i18n/localeRegistry';
 
 const tableLocalizationMap: Partial<Record<string, MRT_Localization>> = {
   ar: MRT_Localization_AR,
@@ -64,5 +65,5 @@ const tableLocalizationMap: Partial<Record<string, MRT_Localization>> = {
 };
 
 export function getTableLocalization(language: string): MRT_Localization | undefined {
-  return tableLocalizationMap[language];
+  return tableLocalizationMap[language] ?? getRegisteredLocale(language)?.tableLocalization;
 }

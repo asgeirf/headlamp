@@ -43,6 +43,8 @@ import {
   setSidebarItemFilter,
 } from '../components/Sidebar/sidebarSlice';
 import { getHeadlampAPIHeaders } from '../helpers/getHeadlampAPIHeaders';
+import type { PluginLocale } from '../i18n/localeRegistry';
+import { addLocale } from '../i18n/registerLocale';
 import { AppTheme } from '../lib/AppTheme';
 import type { ApiResource } from '../lib/k8s/api/v2/ApiResource';
 import { KubeObject } from '../lib/k8s/KubeObject';
@@ -1088,6 +1090,39 @@ export function registerAppTheme(theme: AppTheme) {
 }
 
 /**
+ * Add a language to Headlamp, with Headlamp's own strings in it.
+ *
+ * The language appears in the locale selector, and Headlamp's pages, Material
+ * UI's components and the tables use it when it is selected. Headlamp switches
+ * to it when the user asked for it ahead of every language Headlamp already
+ * has: with the `lng` query parameter, by choosing it on an earlier visit, or
+ * in the browser's language list.
+ *
+ * A language Headlamp already includes cannot be replaced. A plugin's own
+ * strings in the language come from its `locales/<code>/translation.json`, as
+ * for any other language.
+ *
+ * @param locale - The language: its code, its name, and Headlamp's catalogs in it.
+ *
+ * @example
+ *
+ * ```ts
+ * import translation from '../locales/nb/translation.json';
+ * import glossary from '../locales/nb/glossary.json';
+ * import app from '../locales/nb/app.json';
+ *
+ * registerLocale({
+ *   code: 'nb',
+ *   label: 'Norsk bokmål',
+ *   resources: { translation, glossary, app },
+ * });
+ * ```
+ */
+export function registerLocale(locale: PluginLocale) {
+  addLocale(locale);
+}
+
+/**
  * Starts an action after a period of time giving the user an opportunity to cancel the action.
  *
  * @param callback - called after some time.
@@ -1382,4 +1417,4 @@ export {
   ConfigStore,
 };
 
-export type { CallbackActionOptions };
+export type { CallbackActionOptions, PluginLocale };
