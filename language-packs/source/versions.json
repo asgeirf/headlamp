@@ -1,0 +1,6 @@
+{
+  "headlamp": "0.46.0",
+  "plugins": {
+    "@kinvolk/headlamp-pod-counter": "0.0.1"
+  }
+}

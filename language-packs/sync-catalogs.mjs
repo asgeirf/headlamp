@@ -31,7 +31,12 @@
 // translating, because kapi writes translations only into keys that already
 // exist in the catalog.
 //
-//   node language-packs/sync-catalogs.mjs
+// The Headlamp and plugin versions that the English strings were read from are
+// written to source/versions.json. After the packs are translated, run the
+// script with --translated to copy these versions to translatedFrom in each
+// pack's pack.json. Headlamp compares them with the running versions.
+//
+//   node language-packs/sync-catalogs.mjs [--translated]
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -175,6 +180,26 @@ function sidebarLabels(targets) {
   return [...labels];
 }
 
+// Returns the version from the package.json of the package named `name`. The
+// package.json is searched for in each path and its parent directories.
+function packageVersion(targets, name) {
+  for (const target of targets) {
+    let dir = path.resolve(repoDir, target);
+    while (true) {
+      const pkg = readJson(path.join(dir, 'package.json'));
+      if (pkg.name === name && typeof pkg.version === 'string') {
+        return pkg.version;
+      }
+      const parent = path.dirname(dir);
+      if (parent === dir) {
+        break;
+      }
+      dir = parent;
+    }
+  }
+  return undefined;
+}
+
 // A plugin in sources.json is either the path of its English catalog, or
 // { catalog, code, keys }: the catalog, the code to read sidebar labels from,
 // and keys that cannot be read from the code, such as computed labels.
@@ -191,12 +216,15 @@ function pluginEnglish(name, source) {
   }
   const file = path.join(sourceDir, 'plugins', name, 'translation.json');
   writeJson(file, english);
-  console.log(
-    `${path.relative(packsDir, file)}: ${Object.keys(english).length} strings, ${
-      labels.length
-    } sidebar labels`
+  const version = packageVersion(
+    [catalog, ...(Array.isArray(code) ? code : [code])].filter(Boolean),
+    name
   );
-  return file;
+  console.log(
+    `${path.relative(packsDir, file)}: ${Object.keys(english).length} strings, ` +
+      `${labels.length} sidebar labels, version ${version ?? 'unknown'}`
+  );
+  return { file, version };
 }
 
 function sync(englishFile, targetFile) {
@@ -223,6 +251,19 @@ const pluginSources = Object.entries(sources.plugins ?? {}).map(([name, source])
   pluginEnglish(name, source),
 ]);
 
+const headlampPackage = sources.headlampPackage
+  ? readJson(path.resolve(repoDir, sources.headlampPackage))
+  : {};
+const versions = {
+  headlamp: headlampPackage.version,
+  plugins: Object.fromEntries(
+    pluginSources
+      .filter(([, english]) => english.version)
+      .map(([name, english]) => [name, english.version])
+  ),
+};
+writeJson(path.join(sourceDir, 'versions.json'), versions);
+
 const packs = readdirSync(packsDir, { withFileTypes: true })
   .filter(entry => entry.isDirectory() && existsSync(path.join(packsDir, entry.name, 'pack.json')))
   .map(entry => path.join(packsDir, entry.name));
@@ -232,7 +273,17 @@ for (const pack of packs) {
   for (const file of readdirSync(headlampDir).filter(name => name.endsWith('.json'))) {
     sync(path.join(headlampDir, file), path.join(pack, 'headlamp', file));
   }
-  for (const [name, englishFile] of pluginSources) {
-    sync(englishFile, path.join(pack, 'plugins', name, 'translation.json'));
+  for (const [name, english] of pluginSources) {
+    sync(english.file, path.join(pack, 'plugins', name, 'translation.json'));
+  }
+  if (process.argv.includes('--translated')) {
+    const manifestFile = path.join(pack, 'pack.json');
+    const manifest = readJson(manifestFile);
+    writeJson(manifestFile, { ...manifest, translatedFrom: versions });
+    console.log(
+      `${path.relative(packsDir, manifestFile)}: translated from Headlamp ${
+        versions.headlamp ?? 'unknown'
+      }`
+    );
   }
 }

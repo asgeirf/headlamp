@@ -11,6 +11,7 @@ language-packs/
   sync-catalogs.mjs     # extracts the English strings and updates the packs
   source/
     plugins/<name>/     # each plugin's English strings, the source for kapi
+    versions.json       # Headlamp and plugin versions of the English strings
   nb/
     pack.json
     headlamp/           # Headlamp's catalogs
@@ -72,9 +73,20 @@ reads with `useTranslation`. To see which text that is, open Headlamp with
 
 ## Updating the packs
 
-After Headlamp or a plugin changes its English strings, run
-`node language-packs/sync-catalogs.mjs`. The script extracts each plugin's
-English strings to `source/` again, adds the new English keys to every pack
-with empty values, and removes the keys that are no longer in English. An
-empty value is shown in English until it is translated. Then translate the
-new strings with kapi, and increase `version` in `pack.json`.
+A pack continues to work after Headlamp or a plugin is updated. New and
+changed strings are shown in English until the pack is updated, and Settings
+shows the versions that the pack was translated from. To update the packs:
+
+1. If a plugin's files have moved, update the paths in `sources.json`. Then
+   run `node language-packs/sync-catalogs.mjs`. The script extracts each
+   plugin's English strings to `source/` again, writes the Headlamp and
+   plugin versions to `source/versions.json`, adds the new English keys to
+   every pack with empty values, and removes the keys that are no longer in
+   English. An empty value is shown in English until it is translated.
+2. Translate the new strings with kapi.
+3. Run `node language-packs/sync-catalogs.mjs --translated`. The script
+   copies the versions in `source/versions.json` to `translatedFrom` in each
+   pack's `pack.json`, so that Headlamp can compare them with the running
+   versions.
+4. Increase `version` in `pack.json`, so that browsers load the new
+   catalogs.
