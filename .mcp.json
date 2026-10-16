@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "kapi": {
+      "type": "stdio",
+      "command": "kapi",
+      "args": [
+        "mcp",
+        "--project",
+        "kapi.yaml",
+        "--tools",
+        "writing,translation"
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+# kapi's local state for this checkout. Only the context files the project
+# shares are tracked: the terms bundle that `kapi store import` reads.
+*
+!.gitignore
+!terms.json

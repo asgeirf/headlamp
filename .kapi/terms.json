@@ -1,0 +1,1376 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "kapi-terms",
+  "concepts": [
+    {
+      "id": "headlamp-annotation",
+      "domain": "kubernetes",
+      "definition": "Not merknad.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Annotation",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Annotations"
+          ]
+        },
+        {
+          "text": "annotasjon",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "annotasjonen",
+            "annotasjoner",
+            "annotasjonene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-backend",
+      "domain": "kubernetes",
+      "definition": "Not serverdel.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Backend",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Backends"
+          ]
+        },
+        {
+          "text": "backend",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "backenden",
+            "backender",
+            "backendene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-backendtlspolicy",
+      "domain": "kubernetes",
+      "definition": "Gateway API kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "BackendTLSPolicy",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "BackendTLSPolicies",
+            "Backend TLS Policies",
+            "Backend TLS Policy"
+          ]
+        },
+        {
+          "text": "BackendTLSPolicy",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "BackendTLSPolicies"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:21:54Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-backendtrafficpolicy",
+      "domain": "kubernetes",
+      "definition": "Gateway API kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "BackendTrafficPolicy",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "BackendTrafficPolicies",
+            "Backend Traffic Policies",
+            "Backend Traffic Policy"
+          ]
+        },
+        {
+          "text": "BackendTrafficPolicy",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "BackendTrafficPolicies"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:21:54Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-cluster",
+      "domain": "kubernetes",
+      "definition": "A set of nodes managed by one Kubernetes control plane.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Cluster",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Clusters"
+          ]
+        },
+        {
+          "text": "klynge",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "klyngen",
+            "klynger",
+            "klyngene",
+            "klyngens"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-cluster-inventory",
+      "domain": "kubernetes",
+      "definition": "The SIG-Multicluster ClusterInventory API, named as a source.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Cluster Inventory",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "Cluster Inventory",
+          "locale": "nb",
+          "status": "approved"
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:21:54Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-configmap",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "ConfigMap",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "ConfigMaps",
+            "Config Maps",
+            "Config Map"
+          ]
+        },
+        {
+          "text": "ConfigMap",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ConfigMaps"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-container",
+      "domain": "kubernetes",
+      "definition": "Not beholder.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Container",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Containers"
+          ]
+        },
+        {
+          "text": "container",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "containeren",
+            "containere",
+            "containerne",
+            "containerens"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-cordon",
+      "domain": "kubernetes",
+      "definition": "Node action: Sperr for planlegging.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Cordon",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Cordoning",
+            "Cordoned"
+          ]
+        },
+        {
+          "text": "sperr",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "sperrer",
+            "sperret",
+            "sperring",
+            "sperre"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-cronjob",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "CronJob",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "CronJobs",
+            "Cron Jobs",
+            "Cron Job"
+          ]
+        },
+        {
+          "text": "CronJob",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "CronJobs",
+            "cronjobben"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-custom-resource",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Custom Resource",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Custom Resources"
+          ]
+        },
+        {
+          "text": "egendefinert ressurs",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "egendefinerte ressurser",
+            "egendefinerte ressursen",
+            "egendefinerte ressursene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-daemonset",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "DaemonSet",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "DaemonSets",
+            "Daemon Sets",
+            "Daemon Set"
+          ]
+        },
+        {
+          "text": "DaemonSet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "DaemonSets"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-deployment",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English. The act of deploying is utrulling.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Deployment",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Deployments"
+          ]
+        },
+        {
+          "text": "Deployment",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "Deployments",
+            "deploymentet"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-drain",
+      "domain": "kubernetes",
+      "definition": "Node action.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Drain",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Draining",
+            "Drained"
+          ]
+        },
+        {
+          "text": "tøm",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "tømmer",
+            "tømte",
+            "tømming",
+            "tømt",
+            "tømme"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-egress",
+      "domain": "kubernetes",
+      "definition": "NetworkPolicy direction.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Egress",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "utgående",
+          "locale": "nb",
+          "status": "approved"
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-endpoint",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Endpoint",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Endpoints"
+          ]
+        },
+        {
+          "text": "endepunkt",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "endepunktet",
+            "endepunkter",
+            "endepunktene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-endpointslice",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "EndpointSlice",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "EndpointSlices",
+            "Endpoint Slices",
+            "Endpoint Slice"
+          ]
+        },
+        {
+          "text": "EndpointSlice",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "EndpointSlices"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:21:54Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-event",
+      "domain": "kubernetes",
+      "definition": "Kubernetes event.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Event",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Events"
+          ]
+        },
+        {
+          "text": "hendelse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "hendelsen",
+            "hendelser",
+            "hendelsene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-image",
+      "domain": "kubernetes",
+      "definition": "Container image. Not bilde.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Image",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Images"
+          ]
+        },
+        {
+          "text": "image",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "imaget",
+            "imager",
+            "imagene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-ingress",
+      "domain": "kubernetes",
+      "definition": "Ingress resources. As a NetworkPolicy direction, Ingress is inngående and Egress utgående.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Ingresses",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Ingress Classes"
+          ]
+        },
+        {
+          "text": "ingresser",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ingressene",
+            "ingressklasser"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-job",
+      "domain": "kubernetes",
+      "definition": "Kubernetes Job. The kind CronJob stays in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Job",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Jobs"
+          ]
+        },
+        {
+          "text": "jobb",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "jobben",
+            "jobber",
+            "jobbene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-jobset",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "JobSet",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "JobSets",
+            "Job Sets",
+            "Job Set"
+          ]
+        },
+        {
+          "text": "JobSet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "JobSets"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:21:54Z",
+      "updated_at": "2026-10-15T22:21:54Z"
+    },
+    {
+      "id": "headlamp-label",
+      "domain": "kubernetes",
+      "definition": "Kubernetes label.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Label",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Labels"
+          ]
+        },
+        {
+          "text": "etikett",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "etiketten",
+            "etiketter",
+            "etikettene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-lease",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Lease",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Leases"
+          ]
+        },
+        {
+          "text": "Lease",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "Leases"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-limitrange",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "LimitRange",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "LimitRanges",
+            "Limit Ranges",
+            "Limit Range"
+          ]
+        },
+        {
+          "text": "LimitRange",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "LimitRanges"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-namespace",
+      "domain": "kubernetes",
+      "definition": "Kubernetes namespace. Not navneområde.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Namespace",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Namespaces"
+          ]
+        },
+        {
+          "text": "navnerom",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "navnerommet",
+            "navnerommene",
+            "navnerommets",
+            "navneroms"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-network-policy",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Network Policy",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Network Policies"
+          ]
+        },
+        {
+          "text": "nettverkspolicy",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "nettverkspolicyen",
+            "nettverkspolicyer",
+            "nettverkspolicyene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-node",
+      "domain": "kubernetes",
+      "definition": "A machine in the cluster.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Node",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Nodes"
+          ]
+        },
+        {
+          "text": "node",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "noden",
+            "noder",
+            "nodene",
+            "nodens"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-persistent-volume",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Persistent Volume",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Persistent Volumes"
+          ]
+        },
+        {
+          "text": "vedvarende volum",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "vedvarende volumer",
+            "vedvarende volumet"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-persistent-volume-claim",
+      "domain": "kubernetes",
+      "definition": "Claim is krav.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Persistent Volume Claim",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Persistent Volume Claims"
+          ]
+        },
+        {
+          "text": "vedvarende volumkrav",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "vedvarende volumkravet",
+            "vedvarende volumkravene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-plugin",
+      "domain": "kubernetes",
+      "definition": "Headlamp plugin.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Plugin",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Plugins"
+          ]
+        },
+        {
+          "text": "programtillegg",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "programtillegget",
+            "programtilleggene",
+            "programtilleggs"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-pod",
+      "domain": "kubernetes",
+      "definition": "Kubernetes pod. Plural podder, not poder.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Pod",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Pods"
+          ]
+        },
+        {
+          "text": "pod",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "poden",
+            "podder",
+            "poddene",
+            "podens"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-policy",
+      "domain": "kubernetes",
+      "definition": "Not retningslinje.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Policy",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Policies"
+          ]
+        },
+        {
+          "text": "policy",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "policyen",
+            "policyer",
+            "policyene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-port-forwarding",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Port Forwarding",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Port Forward"
+          ]
+        },
+        {
+          "text": "portvideresending",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "portvideresendingen",
+            "portvideresendinger",
+            "portvideresendingene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-priority-class",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Priority Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Priority Classes"
+          ]
+        },
+        {
+          "text": "prioritetsklasse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "prioritetsklassen",
+            "prioritetsklasser",
+            "prioritetsklassene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-probe",
+      "domain": "kubernetes",
+      "definition": "liveness-prober, readiness-prober, startup-prober.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Probe",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Probes"
+          ]
+        },
+        {
+          "text": "probe",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "proben",
+            "prober",
+            "probene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-replica",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Replica",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Replicas"
+          ]
+        },
+        {
+          "text": "replika",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "replikaen",
+            "replikaer",
+            "replikaene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-replicaset",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "ReplicaSet",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "ReplicaSets",
+            "Replica Sets",
+            "Replica Set"
+          ]
+        },
+        {
+          "text": "ReplicaSet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ReplicaSets"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-resource-quota",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Resource Quota",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Resource Quotas"
+          ]
+        },
+        {
+          "text": "ressurskvote",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ressurskvoten",
+            "ressurskvoter",
+            "ressurskvotene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-role-binding",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Role Binding",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Role Bindings"
+          ]
+        },
+        {
+          "text": "rollebinding",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "rollebindingen",
+            "rollebindinger",
+            "rollebindingene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-runtime-class",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Runtime Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Runtime Classes"
+          ]
+        },
+        {
+          "text": "kjøretidsklasse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "kjøretidsklassen",
+            "kjøretidsklasser",
+            "kjøretidsklassene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-secret",
+      "domain": "kubernetes",
+      "definition": "Kubernetes Secret.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Secret",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Secrets"
+          ]
+        },
+        {
+          "text": "hemmelighet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "hemmeligheten",
+            "hemmeligheter",
+            "hemmelighetene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-service",
+      "domain": "kubernetes",
+      "definition": "Kubernetes Service.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Service",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Services"
+          ]
+        },
+        {
+          "text": "tjeneste",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "tjenesten",
+            "tjenester",
+            "tjenestene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-service-account",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Service Account",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Service Accounts"
+          ]
+        },
+        {
+          "text": "tjenestekonto",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "tjenestekontoen",
+            "tjenestekontoer",
+            "tjenestekontoene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-statefulset",
+      "domain": "kubernetes",
+      "definition": "Kubernetes kind, kept in English.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "StatefulSet",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "StatefulSets",
+            "Stateful Sets",
+            "Stateful Set"
+          ]
+        },
+        {
+          "text": "StatefulSet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "StatefulSets"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-storage-class",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Storage Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Storage Classes"
+          ]
+        },
+        {
+          "text": "lagringsklasse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "lagringsklassen",
+            "lagringsklasser",
+            "lagringsklassene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-uncordon",
+      "domain": "kubernetes",
+      "definition": "Node action.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Uncordon",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Uncordoning",
+            "Uncordoned"
+          ]
+        },
+        {
+          "text": "opphev sperring",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "opphever sperring",
+            "opphevet sperring",
+            "oppheve sperring",
+            "oppheving av sperring",
+            "opphevet sperringen"
+          ]
+        }
+      ],
+      "advisory": true,
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-volume",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Volume",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Volumes"
+          ]
+        },
+        {
+          "text": "volum",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "volumet",
+            "volumer",
+            "volumene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    },
+    {
+      "id": "headlamp-workload",
+      "domain": "kubernetes",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Workload",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Workloads"
+          ]
+        },
+        {
+          "text": "arbeidsbelastning",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "arbeidsbelastningen",
+            "arbeidsbelastninger",
+            "arbeidsbelastningene"
+          ]
+        }
+      ],
+      "created_at": "2026-10-15T22:19:55Z",
+      "updated_at": "2026-10-15T22:19:55Z"
+    }
+  ]
+}
