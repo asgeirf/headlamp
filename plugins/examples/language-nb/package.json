@@ -1,0 +1,44 @@
+{
+  "name": "language-nb",
+  "author": "Asgeir Frimannsson",
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "description": "Example Headlamp (Kubernetes GUI) plugin. Adds Norwegian Bokmål (nb) to Headlamp: Headlamp's own strings, Material UI's and the tables'.",
+  "scripts": {
+    "start": "headlamp-plugin start",
+    "build": "headlamp-plugin build",
+    "format": "headlamp-plugin format",
+    "lint": "headlamp-plugin lint",
+    "tsc": "headlamp-plugin tsc",
+    "storybook": "headlamp-plugin storybook",
+    "storybook-build": "headlamp-plugin storybook-build",
+    "test": "headlamp-plugin test",
+    "sync-catalogs": "node scripts/sync-catalogs.mjs"
+  },
+  "keywords": [
+    "headlamp",
+    "headlamp-plugin",
+    "kubernetes",
+    "plugins",
+    "i18n"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kinvolk/headlamp.git",
+    "directory": "plugins/examples/language-nb"
+  },
+  "prettier": "@headlamp-k8s/eslint-config/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@headlamp-k8s",
+      "prettier",
+      "plugin:jsx-a11y/recommended"
+    ]
+  },
+  "devDependencies": {
+    "@kinvolk/headlamp-plugin": "^0.13.1"
+  },
+  "overrides": {
+    "typescript": "5.6.2"
+  }
+}
