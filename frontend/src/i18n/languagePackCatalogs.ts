@@ -18,7 +18,44 @@
 // config.ts, which reads the catalogs when i18next loads a language, and from
 // languagePacks.ts, which adds them.
 
+import { keepsShape } from './translationShape';
+
 type Strings = Record<string, string>;
+
+/** Time to wait for a catalog before the language is loaded without it. */
+export const CATALOG_TIMEOUT_MS = 5000;
+
+/**
+ * Fetches JSON and fails after `ms` milliseconds. If a language pack is slow,
+ * Headlamp shows English text for a few seconds instead of waiting for it.
+ */
+export async function fetchJsonWithTimeout(
+  url: string,
+  headers: HeadersInit,
+  ms: number
+): Promise<unknown> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_resolve, reject) => {
+    timer = setTimeout(() => {
+      controller.abort();
+      reject(new Error(`no response after ${ms} ms`));
+    }, ms);
+  });
+  try {
+    return await Promise.race([
+      fetch(url, { headers, signal: controller.signal }).then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      }),
+      timeout,
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 /** The URLs of Headlamp's catalogs (by namespace) and plugin catalogs (by plugin name) for one language. */
 interface LanguageCatalogs {
@@ -65,25 +102,45 @@ export function addPackLanguage(code: string) {
   forLanguage(code);
 }
 
+/**
+ * Returns the strings of a catalog that can be used: non-empty strings with the
+ * same placeholders and tags as their English key. For the other keys, Headlamp
+ * shows the string it shows without the pack.
+ */
+function usableStrings(json: unknown, url: string): Strings {
+  const strings: Strings = {};
+  const misshapen: string[] = [];
+  if (json && typeof json === 'object' && !Array.isArray(json)) {
+    for (const [key, value] of Object.entries(json)) {
+      // An empty value is an untranslated string.
+      if (typeof value !== 'string' || value === '') {
+        continue;
+      }
+      if (keepsShape(key, value)) {
+        strings[key] = value;
+      } else {
+        misshapen.push(key);
+      }
+    }
+  }
+  if (misshapen.length > 0) {
+    console.warn(
+      `Language pack catalog ${url}: skipped ${misshapen.length} translation(s) with placeholders or tags that differ from the English key:`,
+      misshapen
+    );
+  }
+  return strings;
+}
+
 function fetchStrings(url: string): Promise<Strings> {
   let response = responses.get(url);
   if (!response) {
-    response = fetch(url, { headers: requestHeaders })
-      .then(res => (res.ok ? res.json() : {}))
-      .then((json: unknown) => {
-        const strings: Strings = {};
-        if (json && typeof json === 'object' && !Array.isArray(json)) {
-          for (const [key, value] of Object.entries(json)) {
-            // An empty value is an untranslated string.
-            if (typeof value === 'string' && value !== '') {
-              strings[key] = value;
-            }
-          }
-        }
-        return strings;
-      })
+    response = fetchJsonWithTimeout(url, requestHeaders, CATALOG_TIMEOUT_MS)
+      .then(json => usableStrings(json, url))
       .catch(error => {
         console.warn(`Could not read the language pack catalog ${url}:`, error);
+        // Request the catalog again the next time the language is loaded.
+        responses.delete(url);
         return {};
       });
     responses.set(url, response);

@@ -72,7 +72,8 @@ describe('language packs in the menus', () => {
         'nb/pack.json': '{"language":{"code":"nb","label":"Norsk bokmål"}}',
         'nb/headlamp/app.json': '{"File":"Fil"}',
         'de/pack.json': '{"language":{"code":"de"}}',
-        'de/headlamp/app.json': '{"File":"Akte","Edit":""}',
+        'de/headlamp/app.json':
+          '{"File":"Akte","Edit":"","Do you want to install the plugin \\"{{ pluginName }}\\"?":"Installieren?"}',
       })
     );
     const i18n = createInstance();
@@ -102,5 +103,9 @@ describe('language packs in the menus', () => {
     await i18n.changeLanguage('de');
     expect(i18n.t('File')).toBe('Akte');
     expect(i18n.t('Edit')).toBe('Bearbeiten');
+    // A translation without the {{ pluginName }} placeholder is skipped.
+    expect(
+      i18n.t('Do you want to install the plugin "{{ pluginName }}"?', { pluginName: 'x' })
+    ).toContain('"x"');
   });
 });

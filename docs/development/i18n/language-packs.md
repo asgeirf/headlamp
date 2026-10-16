@@ -44,7 +44,8 @@ language-packs/
   "version": "2026.10.1",
   "language": { "code": "nb", "label": "Norsk bokmål", "dir": "ltr" },
   "muiLocale": "nbNO",
-  "tableLocale": "no"
+  "tableLocale": "no",
+  "translatedFrom": { "headlamp": "0.46.0" }
 }
 ```
 
@@ -60,6 +61,13 @@ language-packs/
   used for date pickers, pagination and other Material UI text.
 - `tableLocale`: Optional. The name of a directory in
   `material-react-table/locales`, used for table text.
+- `version`: The version of the pack. Headlamp adds it to the URLs of the
+  pack's files, so that browsers do not use cached files from an older
+  version. Increase it every time the files change.
+- `translatedFrom.headlamp`: The Headlamp version that the pack was
+  translated from. For a language that Headlamp includes, Headlamp logs a
+  warning if this version is older than the running Headlamp, because the
+  pack's strings then replace translations that Headlamp may have fixed since.
 
 The Material UI and table locales are loaded the first time the language is
 used.
@@ -94,6 +102,25 @@ by a pack.
 
 Headlamp shows its pages after the packs are loaded, so a pack's language is
 used from the first page.
+
+## Validation
+
+Headlamp validates packs when it loads them:
+
+- A pack is skipped if its `pack.json` cannot be read, or if its
+  `language.code` is not a valid language code. Catalogs that are not valid
+  JSON, and values that are not strings, are also skipped.
+- A translation is skipped if its `{{placeholders}}` or `<1>…</1>` tags
+  differ from those in its English key. Headlamp then shows the English
+  string, or its own translation. Plural forms can omit `{{count}}`. The
+  skipped translations are listed in the browser console.
+- If the list of packs is not received within 3 seconds, Headlamp starts
+  without packs. If a catalog is not received within 5 seconds, the language
+  is loaded without it, and the catalog is requested again the next time the
+  language is loaded.
+
+Translations are rendered as text, so a pack cannot add HTML or scripts to
+the page.
 
 ## Installing packs
 

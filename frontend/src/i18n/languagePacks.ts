@@ -16,7 +16,9 @@
 
 import type { Localization } from '@mui/material/locale';
 import type { MRT_Localization } from 'material-react-table';
+import semver from 'semver';
 import { getAppUrl } from '../helpers/getAppUrl';
+import { getVersion } from '../helpers/getProductInfo';
 import { isDevMode } from '../helpers/isDevMode';
 import i18next, { requestedLanguages, supportedLanguages } from './config';
 import sharedConfig from './i18nextSharedConfig.mjs';
@@ -24,6 +26,7 @@ import {
   addHeadlampCatalog,
   addPackLanguage,
   addPluginCatalog,
+  fetchJsonWithTimeout,
   setLanguagePackHeaders,
 } from './languagePackCatalogs';
 import { addRegisteredLocale, getRegisteredLocale } from './localeRegistry';
@@ -45,7 +48,12 @@ export interface LanguagePackManifest {
   muiLocale?: string;
   /** The name of the table locale, a directory in material-react-table/locales, for example 'no'. */
   tableLocale?: string;
+  /** The versions the pack was translated from: the Headlamp version, and each plugin's version by package name. */
+  translatedFrom?: { headlamp?: string; plugins?: Record<string, string> };
 }
+
+/** Time to wait for the list of packs before Headlamp starts without them. */
+export const LIST_TIMEOUT_MS = 3000;
 
 /** A language pack, as listed by the backend. */
 export interface LanguagePack {
@@ -117,9 +125,28 @@ async function loadUiLocales(language: string | undefined) {
   }
 }
 
-function packFileUrl(packName: string, file: string) {
-  const path = [packName, ...file.split('/')].map(encodeURIComponent).join('/');
-  return `${getAppUrl()}language-packs/${path}`;
+function packFileUrl(pack: LanguagePack, file: string) {
+  const path = [pack.name, ...file.split('/')].map(encodeURIComponent).join('/');
+  // Add the pack version to the URL, so that browsers do not use cached
+  // catalogs from an older version.
+  const version = pack.manifest.version;
+  const query = typeof version === 'string' && version ? `?v=${encodeURIComponent(version)}` : '';
+  return `${getAppUrl()}language-packs/${path}${query}`;
+}
+
+/**
+ * Logs a warning if a pack changes a language that Headlamp includes and was
+ * translated from an older Headlamp version. The pack's strings still replace
+ * Headlamp's strings, including translations that Headlamp has fixed since.
+ */
+function warnIfStale(pack: LanguagePack, code: string) {
+  const translatedFrom = semver.coerce(pack.manifest.translatedFrom?.headlamp);
+  const running = semver.coerce(getVersion().VERSION);
+  if (translatedFrom && running && semver.lt(translatedFrom, running)) {
+    console.warn(
+      `Language pack "${pack.name}" replaces Headlamp's "${code}" strings and was translated from Headlamp ${translatedFrom.version}, but this is Headlamp ${running.version}. Headlamp's own "${code}" translations may be newer.`
+    );
+  }
 }
 
 /**
@@ -153,19 +180,21 @@ export async function addLanguagePacks(packs: LanguagePack[]) {
       }
       addLanguage(code, label, dir === 'rtl' ? 'rtl' : 'ltr');
       added.push(code);
+    } else if (pack.files?.some(file => HEADLAMP_CATALOG.test(file))) {
+      warnIfStale(pack, code);
     }
 
     addPackLanguage(code);
     for (const file of pack.files ?? []) {
       const headlamp = HEADLAMP_CATALOG.exec(file);
       if (headlamp) {
-        addHeadlampCatalog(code, headlamp[1], packFileUrl(pack.name, file));
+        addHeadlampCatalog(code, headlamp[1], packFileUrl(pack, file));
         changed.add(code);
         continue;
       }
       const plugin = PLUGIN_CATALOG.exec(file);
       if (plugin) {
-        addPluginCatalog(code, plugin[1], packFileUrl(pack.name, file));
+        addPluginCatalog(code, plugin[1], packFileUrl(pack, file));
       }
     }
 
@@ -222,11 +251,7 @@ export async function loadLanguagePacks(headers: HeadersInit = {}) {
   setLanguagePackHeaders(headers);
   let packs: unknown;
   try {
-    const response = await fetch(`${getAppUrl()}language-packs`, { headers });
-    if (!response.ok) {
-      return;
-    }
-    packs = await response.json();
+    packs = await fetchJsonWithTimeout(`${getAppUrl()}language-packs`, headers, LIST_TIMEOUT_MS);
   } catch (error) {
     console.warn('Could not list the language packs:', error);
     return;

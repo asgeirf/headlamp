@@ -16,6 +16,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { keepsShape } from '../../frontend/src/i18n/translationShape';
 
 type Strings = Record<string, string>;
 
@@ -29,15 +30,32 @@ function readJson(file: string): unknown {
   }
 }
 
-function onlyStrings(value: unknown): Strings {
+/**
+ * Returns the strings of a catalog that can be used: non-empty strings with the
+ * same placeholders and tags as their English key. The frontend applies the
+ * same check.
+ */
+function usableStrings(value: unknown, file: string): Strings {
   const strings: Strings = {};
+  const misshapen: string[] = [];
   if (value && typeof value === 'object' && !Array.isArray(value)) {
     for (const [key, text] of Object.entries(value)) {
       // An empty value is an untranslated string.
-      if (typeof text === 'string' && text !== '') {
+      if (typeof text !== 'string' || text === '') {
+        continue;
+      }
+      if (keepsShape(key, text)) {
         strings[key] = text;
+      } else {
+        misshapen.push(key);
       }
     }
+  }
+  if (misshapen.length > 0) {
+    console.warn(
+      `Language pack catalog ${file}: skipped ${misshapen.length} translation(s) with placeholders or tags that differ from the English key:`,
+      misshapen
+    );
   }
   return strings;
 }
@@ -76,7 +94,8 @@ export function readLanguagePackAppStrings(dir: string | undefined): Map<string,
       continue;
     }
     const lng = code.toLowerCase();
-    const strings = onlyStrings(readJson(path.join(packDir, 'headlamp', 'app.json')));
+    const appFile = path.join(packDir, 'headlamp', 'app.json');
+    const strings = usableStrings(readJson(appFile), appFile);
     byLanguage.set(lng, { ...byLanguage.get(lng), ...strings });
   }
   return byLanguage;
