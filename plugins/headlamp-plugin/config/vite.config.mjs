@@ -52,6 +52,20 @@ const noSubmodules = [
   'react/jsx-runtime',
 ];
 
+// Submodules of an external module that pluginLib does not provide, so a
+// plugin that imports one bundles it. Material UI's locales hold only strings;
+// a plugin that adds a language with registerLocale passes one as `muiLocale`.
+const bundledSubmodules = ['@mui/material/locale'];
+
+function isExternal(id) {
+  if (bundledSubmodules.some(module => id === module || id.startsWith(module + '/'))) {
+    return false;
+  }
+  return Object.keys(externalModules).some(key =>
+    noSubmodules.includes(key) ? id === key : id.startsWith(key)
+  );
+}
+
 export default defineConfig({
   define: {
     global: 'globalThis',
@@ -106,9 +120,7 @@ export default defineConfig({
     rollupOptions: {
       // Workaround for https://github.com/vitejs/vite/issues/19410
       maxParallelFileOps: 500,
-      external: Object.keys(externalModules).map(key =>
-        noSubmodules.includes(key) ? key : new RegExp(`^${key}`)
-      ),
+      external: isExternal,
       output: {
         interop: 'compat',
         entryFileNames: 'main.js',
