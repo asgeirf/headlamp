@@ -18,6 +18,7 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import sharedConfig from './i18nextSharedConfig.mjs';
+import { withRegisteredStrings } from './localeRegistry';
 
 const en = {}; // To keep TS happy.
 
@@ -131,6 +132,39 @@ export const supportedLanguages: {
 
 export const isRTL = (lang: string) => supportedLanguages[lang]?.dir === 'rtl';
 
+/**
+ * The languages the user asked for, best first, read before i18next starts:
+ * the `lng` query parameter, the language i18next stored on the last visit,
+ * then the browser's languages. i18next replaces the stored language with the
+ * fallback when it does not support it, so a language a plugin registers later
+ * (see registerLocale) is matched against this list instead.
+ */
+export const requestedLanguages: string[] = readRequestedLanguages();
+
+function readRequestedLanguages(): string[] {
+  const found: string[] = [];
+  try {
+    const fromQuery = new URLSearchParams(window.location.search).get('lng');
+    if (fromQuery) {
+      found.push(fromQuery);
+    }
+  } catch {
+    // No window in this environment.
+  }
+  try {
+    const stored = window.localStorage.getItem('i18nextLng');
+    if (stored) {
+      found.push(stored);
+    }
+  } catch {
+    // Storage can be blocked.
+  }
+  if (typeof navigator !== 'undefined') {
+    found.push(...(navigator.languages ?? [navigator.language]));
+  }
+  return found.filter(Boolean);
+}
+
 i18next
   // detect user language https://github.com/i18next/i18next-browser-languageDetector
   .use(LanguageDetector)
@@ -147,7 +181,8 @@ i18next
     ) {
       import(`./locales/${language.toLowerCase()}/${namespace}.json?import=default`)
         .then(resources => {
-          callback(null, resources.default);
+          // A plugin can register strings for a language before it loads.
+          callback(null, withRegisteredStrings(language, namespace, resources.default));
         })
         .catch(error => {
           callback(error, null);
