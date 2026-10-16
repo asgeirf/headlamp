@@ -1,0 +1,6 @@
+{
+  "headlamp": "frontend/src/i18n/locales/en",
+  "plugins": {
+    "@kinvolk/headlamp-pod-counter": "plugins/examples/pod-counter/locales/en/translation.json"
+  }
+}

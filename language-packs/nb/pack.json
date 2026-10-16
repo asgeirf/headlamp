@@ -1,0 +1,14 @@
+{
+  "name": "nb",
+  "version": "0.46.0-1",
+  "language": {
+    "code": "nb",
+    "label": "Norsk bokmål",
+    "dir": "ltr"
+  },
+  "muiLocale": "nbNO",
+  "tableLocale": "no",
+  "translatedFrom": {
+    "headlamp": "0.46.0"
+  }
+}
