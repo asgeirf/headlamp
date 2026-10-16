@@ -24,12 +24,13 @@ collections:
         format: i18next
         target: "language-packs/{lang}/headlamp/{name}.json"
 
-  # Plugin catalogs: one collection for each plugin that the packs translate.
-  # Each collection reads the plugin's English catalog and writes
-  # plugins/<package name>/ in each pack. language-packs/sources.json lists the
-  # same plugins.
+  # Plugin catalogs: one collection for each plugin that the packs translate,
+  # written to plugins/<package name>/ in each pack. The source is the English
+  # that language-packs/sync-catalogs.mjs extracts to language-packs/source:
+  # the plugin's catalog and the sidebar labels that its code registers.
+  # language-packs/sources.json lists the same plugins.
   - name: plugin-pod-counter
     content:
-      - path: "plugins/examples/pod-counter/locales/en/translation.json"
+      - path: "language-packs/source/plugins/@kinvolk/headlamp-pod-counter/translation.json"
         format: i18next
         target: "language-packs/{lang}/plugins/@kinvolk/headlamp-pod-counter/translation.json"

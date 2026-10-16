@@ -294,10 +294,14 @@ you change a term with the `kapi terms` commands, export the file with
 
 When strings change, `npm run i18n` extracts the new keys into every locale
 that Headlamp includes. The language packs are stored outside Headlamp's
-locales, so also run `node language-packs/sync-catalogs.mjs`. The script adds
-the new keys to every pack with empty values, and removes the keys that are
-no longer in English. kapi writes translations only into keys that already
-exist in a catalog.
+locales, so also run `node language-packs/sync-catalogs.mjs`. The script:
+
+1. Extracts each plugin's English strings to `language-packs/source/`: the
+   plugin's catalog and the labels of the sidebar entries that its code
+   registers. kapi uses these files as the plugin's source.
+2. Adds the new keys to every pack with empty values, and removes the keys
+   that are no longer in English. kapi writes translations only into keys
+   that already exist in a catalog.
 
 Then run `kapi status` to see how much of each language is translated. To
 translate the missing strings, use one of these methods:
