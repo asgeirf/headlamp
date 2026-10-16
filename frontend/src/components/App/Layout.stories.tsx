@@ -18,15 +18,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Meta, StoryFn } from '@storybook/react';
 import { delay, http, HttpResponse } from 'msw';
 import { expect, within } from 'storybook/test';
-import { pluginsLoaded } from '../../plugin/pluginsSlice';
+import { languagePacksLoaded, pluginsLoaded } from '../../plugin/pluginsSlice';
 import reducers from '../../redux/reducers/reducers';
 import { API_BASE, TestContext } from '../../test';
 import Layout from './Layout';
 import { applyBackendThemeConfig } from './themeSlice';
 
-function createLayoutStore(themeConfigReady = true) {
+function createLayoutStore(themeConfigReady = true, languagePacksReady = true) {
   const store = configureStore({ reducer: reducers });
   store.dispatch(pluginsLoaded());
+  if (languagePacksReady) {
+    store.dispatch(languagePacksLoaded());
+  }
   if (themeConfigReady) {
     store.dispatch(applyBackendThemeConfig({}));
   }
@@ -208,6 +211,28 @@ LoadingState.parameters = {
         })
       ),
     ],
+  },
+};
+
+export const LoadingLanguagePacks = Template.bind({});
+LoadingLanguagePacks.decorators = [
+  Story => (
+    <TestContext store={createLayoutStore(true, false)}>
+      <Story />
+    </TestContext>
+  ),
+];
+LoadingLanguagePacks.play = async ({ canvasElement }) => {
+  await expect(within(canvasElement).getByRole('progressbar', { name: 'Loading' })).toBeVisible();
+};
+LoadingLanguagePacks.parameters = {
+  docs: {
+    description: {
+      story: 'Layout showing the loading state until the language packs are loaded.',
+    },
+  },
+  storyshots: {
+    disable: true,
   },
 };
 

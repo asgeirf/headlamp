@@ -44,6 +44,7 @@ import { addBackstageAuthHeaders } from '../helpers/addBackstageAuthHeaders';
 import { getAppUrl } from '../helpers/getAppUrl';
 import { isElectron } from '../helpers/isElectron';
 import i18next from '../i18n/config';
+import { loadLanguagePacks } from '../i18n/languagePacks';
 import * as K8s from '../lib/k8s';
 import * as ApiProxy from '../lib/k8s/apiProxy';
 import * as Crd from '../lib/k8s/crd';
@@ -478,17 +479,22 @@ async function fetchWithRetry<T>(
  * @param settingsPackages The packages settings knows about.
  * @param onSettingsChange Called when the plugins are different to what is in settings.
  * @param onIncompatible Called when there are incompatible plugins.
+ * @param onLanguagePacksLoaded Called when the language packs are loaded, or failed to load.
  *
  */
 export async function fetchAndExecutePlugins(
   settingsPackages: PluginInfo[],
   onSettingsChange: (plugins: PluginInfo[]) => void,
-  onIncompatible: (plugins: Record<string, PluginInfo>) => void
+  onIncompatible: (plugins: Record<string, PluginInfo>) => void,
+  onLanguagePacksLoaded: () => void = () => {}
 ) {
   const deadline = Date.now() + PLUGIN_STARTUP_TIMEOUT_MS;
   const permissionSecretsPromise = permissionSecretsFromApp();
 
   const headers = addBackstageAuthHeaders();
+  // The language packs are fetched in parallel with the plugins, and are added
+  // before any plugin runs.
+  const languagePacksLoading = loadLanguagePacks(headers);
 
   // Backend now returns plugin metadata with path, type, and name
   interface PluginMetadata {
@@ -770,6 +776,11 @@ export async function fetchAndExecutePlugins(
     if (!aHasArgs && bHasArgs) return 1;
     return 0;
   });
+
+  await beforePluginStartupDeadline(languagePacksLoading, deadline).catch(error => {
+    console.error('Failed to load language packs:', error);
+  });
+  onLanguagePacksLoaded();
 
   infoForRunningPlugins.forEach(runPluginInner);
 

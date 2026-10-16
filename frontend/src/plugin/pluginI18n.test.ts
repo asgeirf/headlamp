@@ -17,6 +17,7 @@
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { addPluginCatalog } from '../i18n/languagePackCatalogs';
 import { changePluginLanguage, initializePluginI18n, useTranslation } from './pluginI18n';
 
 // Mock react-i18next so the hook can read a "current language" without a provider.
@@ -229,5 +230,55 @@ describe('pluginI18n', () => {
 
     // The user ended up on 'fr', so the late 'de' completion must not win.
     expect(instance?.language).toBe('fr');
+  });
+
+  it("translates a plugin from a language pack, overriding the plugin's own catalog", async () => {
+    addPluginCatalog(
+      'nb',
+      'pack-plugin',
+      '/language-packs/nb/plugins/pack-plugin/translation.json'
+    );
+    addPluginCatalog(
+      'de',
+      'pack-plugin',
+      '/language-packs/de/plugins/pack-plugin/translation.json'
+    );
+    fetchSpy.mockImplementation(async (url: string) => {
+      const strings: Record<string, Record<string, string>> = {
+        '/plugins/pack-plugin/locales/de/translation.json': { Hello: 'Hallo', Bye: 'Tschüss' },
+        '/language-packs/de/plugins/pack-plugin/translation.json': { Hello: 'Servus' },
+        '/language-packs/nb/plugins/pack-plugin/translation.json': { Hello: 'Hei' },
+      };
+      const path = Object.keys(strings).find(key => String(url).endsWith(key));
+      return path
+        ? { ok: true, status: 200, json: async () => strings[path] }
+        : { ok: false, status: 404, json: async () => ({}) };
+    });
+
+    // The plugin only has a German catalog.
+    await initializePluginI18n(
+      'pack-plugin',
+      { name: 'pack-plugin', headlamp: { i18n: ['de'] } },
+      '/plugins/pack-plugin'
+    );
+
+    function Widget() {
+      const { t } = useTranslation('pack-plugin');
+      return React.createElement('div', { 'data-testid': 'out' }, `${t('Hello')} ${t('Bye')}`);
+    }
+
+    mainI18n.language = 'nb';
+    mainI18n.resolvedLanguage = 'nb';
+    const { rerender } = render(React.createElement(Widget));
+    await waitFor(() => expect(screen.getByTestId('out').textContent).toBe('Hei Bye'));
+    // The plugin has no Norwegian catalog to request.
+    expect(
+      localeUrls(fetchSpy).filter(url => url.includes('/plugins/pack-plugin/locales/nb/'))
+    ).toEqual([]);
+
+    mainI18n.language = 'de';
+    mainI18n.resolvedLanguage = 'de';
+    rerender(React.createElement(Widget));
+    await waitFor(() => expect(screen.getByTestId('out').textContent).toBe('Servus Tschüss'));
   });
 });

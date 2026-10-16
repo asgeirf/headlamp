@@ -23,7 +23,7 @@ import { useHistory } from 'react-router-dom';
 import { isElectron } from '../helpers/isElectron';
 import { useTypedSelector } from '../redux/hooks';
 import { fetchAndExecutePlugins } from './index';
-import { pluginsLoaded, setPluginSettings } from './pluginsSlice';
+import { languagePacksLoaded, pluginsLoaded, setPluginSettings } from './pluginsSlice';
 
 /**
  * For discovering and executing plugins.
@@ -80,6 +80,9 @@ export default function Plugins() {
         } else {
           enqueueSnackbar(message);
         }
+      },
+      () => {
+        dispatch(languagePacksLoaded());
       }
     )
       .catch((err: unknown) => {
@@ -90,6 +93,8 @@ export default function Plugins() {
       })
       .finally(() => {
         try {
+          // Also when loading failed before the language packs were loaded.
+          dispatch(languagePacksLoaded());
           dispatch(pluginsLoaded());
           // Warn the app (if we're in app mode).
           window.desktopApi?.send('pluginsLoaded');

@@ -111,6 +111,7 @@ export default defineConfig({
           '/api',
           '/clusters',
           '/plugins',
+          '/language-packs',
           '/config',
           '/auth/',
           '/oidc',

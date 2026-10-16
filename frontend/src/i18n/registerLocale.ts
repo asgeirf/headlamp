@@ -52,9 +52,20 @@ function addSupportedLng(code: string) {
   (lngs as string[]).splice(at < 0 ? lngs.length : at, 0, code);
 }
 
-function findCode(codes: string[], code: string) {
+/** Returns the code in `codes` that matches `code`, ignoring case. */
+export function findCode(codes: string[], code: string) {
   const lower = code.toLowerCase();
   return codes.find(candidate => candidate.toLowerCase() === lower);
+}
+
+/**
+ * Makes a language that Headlamp does not include selectable. i18next loads
+ * the language's catalogs when they are needed, so the caller must provide
+ * them.
+ */
+export function addLanguage(code: string, label: string, dir: 'ltr' | 'rtl' = 'ltr') {
+  supportedLanguages[code] = { label, dir };
+  addSupportedLng(code);
 }
 
 /**
@@ -81,8 +92,7 @@ export function addLocale(locale: PluginLocale) {
   const code = known ?? locale.code;
 
   if (isNew) {
-    supportedLanguages[code] = { label: locale.label!, dir: locale.dir ?? 'ltr' };
-    addSupportedLng(code);
+    addLanguage(code, locale.label!, locale.dir);
     // Add a bundle for every namespace, empty if the plugin has none, so that
     // i18next does not request a catalog file that does not exist.
     const namespaces = new Set([...sharedConfig.namespaces, ...Object.keys(locale.resources!)]);

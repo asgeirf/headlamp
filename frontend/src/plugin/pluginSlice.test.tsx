@@ -26,6 +26,7 @@ import {
 const initialState: PluginsState = {
   /** Once the plugins have been fetched and executed. */
   loaded: false,
+  languagePacksLoaded: false,
   /** If plugin settings are saved use those. */
   pluginSettings: JSON.parse(localStorage.getItem('headlampPluginSettings') || '[]'),
 };
@@ -83,5 +84,11 @@ describe('pluginsSlice reducers', () => {
     const newState = pluginsSlice.reducer(initialStateWithPlugin, action);
 
     expect(newState).toEqual(initialStateWithPlugin);
+  });
+
+  test('records that the language packs are loaded', () => {
+    const newState = pluginsSlice.reducer(initialState, pluginsSlice.actions.languagePacksLoaded());
+
+    expect(newState).toEqual({ ...initialState, languagePacksLoaded: true });
   });
 });

@@ -18,6 +18,7 @@ import i18next, { createInstance, i18n, TFunction, TOptions } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation as useReactI18nTranslation } from 'react-i18next';
 import { getAppUrl } from '../helpers/getAppUrl';
+import { getPackPluginLanguages, getPackPluginStrings } from '../i18n/languagePackCatalogs';
 import type { PluginPackageHeadlampConfig } from './pluginsSlice';
 
 export interface PluginTranslations {
@@ -50,6 +51,9 @@ export interface PluginPackageInfo {
 const pluginI18nInstances: { [pluginName: string]: i18n } = {};
 const pluginPaths: { [pluginName: string]: string } = {};
 const pluginSupportedLocales: { [pluginName: string]: string[] } = {};
+// The locales that a plugin has its own catalogs for. Language packs can add
+// more locales to pluginSupportedLocales.
+const pluginDeclaredLocales: { [pluginName: string]: string[] } = {};
 
 // In-flight locale loads, keyed by `${pluginName}:${locale}`. A resource bundle
 // only exists once its fetch has finished, so without this every caller that
@@ -89,6 +93,23 @@ async function loadPluginTranslations(
 }
 
 /**
+ * Loads a plugin's translations for a locale: the plugin's own catalog, if it
+ * has one, overridden by the language packs' strings for the plugin.
+ */
+async function loadLocale(
+  pluginName: string,
+  pluginPath: string,
+  locale: string
+): Promise<Record<string, string>> {
+  const declared = pluginDeclaredLocales[pluginName];
+  const [own, pack] = await Promise.all([
+    !declared || declared.includes(locale) ? loadPluginTranslations(pluginPath, locale) : {},
+    getPackPluginStrings(pluginName, locale),
+  ]);
+  return { ...own, ...pack };
+}
+
+/**
  * Lazily load a single locale's translations into an existing plugin instance.
  * Used when the active language changes, so a locale is only fetched the first
  * time it is actually needed instead of all locales being fetched up front
@@ -111,7 +132,7 @@ async function ensurePluginLocaleLoaded(
   const key = `${pluginName}:${locale}`;
   if (!pendingLocaleLoads[key]) {
     pendingLocaleLoads[key] = (async () => {
-      const translations = await loadPluginTranslations(pluginPath, locale);
+      const translations = await loadLocale(pluginName, pluginPath, locale);
       // Register the bundle even when it is empty. It records that the locale
       // has been attempted, so `hasResourceBundle` short-circuits any later
       // switch back to it; otherwise a plugin whose file is missing gets
@@ -182,7 +203,7 @@ async function getPluginI18nInstance(
   const resources: Record<string, Record<string, Record<string, string>>> = {};
 
   for (const locale of initialLocales) {
-    const translations = await loadPluginTranslations(pluginPath, locale);
+    const translations = await loadLocale(pluginName, pluginPath, locale);
     // Registered even when empty, for the same reason as in
     // `ensurePluginLocaleLoaded`: it marks the locale as already attempted so
     // switching away and back does not re-probe a file that is not there.
@@ -497,11 +518,11 @@ export async function initializePluginI18n(
   let supportedLocales: string[] = [];
   let i18nEnabled = false;
 
-  if (Array.isArray(i18nConfig)) {
-    // Array of supported locales
-    supportedLocales = i18nConfig;
-    i18nEnabled = supportedLocales.length > 0;
-  }
+  const declaredLocales = Array.isArray(i18nConfig) ? i18nConfig : [];
+  pluginDeclaredLocales[pluginName] = declaredLocales;
+  // Language packs can add locales that the plugin does not have catalogs for.
+  supportedLocales = [...new Set([...declaredLocales, ...getPackPluginLanguages(pluginName)])];
+  i18nEnabled = supportedLocales.length > 0;
 
   if (i18nEnabled) {
     // Store supported locales for later use

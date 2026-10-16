@@ -203,6 +203,9 @@ const disableBackendLoader = true;
 
 export default function Layout({}: LayoutProps) {
   const arePluginsLoaded = useTypedSelector(state => state.plugins.loaded);
+  // Until the language packs are loaded, a language that only a pack provides
+  // would be shown in English.
+  const areLanguagePacksLoaded = useTypedSelector(state => state.plugins.languagePacksLoaded);
   const isThemeConfigReady = useTypedSelector(state => state.theme.backendConfigReady);
   const dispatch = useDispatch();
   const clusters = useTypedSelector(state => state.config.clusters);
@@ -268,7 +271,7 @@ export default function Layout({}: LayoutProps) {
 
   const panels = useUIPanelsGroupedBySide();
 
-  if (!arePluginsLoaded || !isThemeConfigReady) {
+  if (!arePluginsLoaded || !areLanguagePacksLoaded || !isThemeConfigReady) {
     return <Loader title={t('Loading')} color="inherit" style={{ color: 'GrayText' }} />;
   }
 

@@ -141,6 +141,17 @@ spec:
   clusterManager:
     name: headlamp-e2e
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: headlamp-language-packs
+  namespace: kube-system
+data:
+  pack.json: |
+    {"name": "e2e-nb", "version": "1", "language": {"code": "nb", "label": "Norsk bokmål"}}
+  translation.json: |
+    {"Home": "Hjem"}
+---
 # Source: headlamp/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -193,6 +204,7 @@ spec:
         - "-cluster-inventory-root-reconcile-interval=2s"
         - "-cluster-inventory-no-crd-cache-ttl=2s"
         - "-plugins-dir=/build/plugins"
+        - "-language-packs-dir=/etc/headlamp/language-packs"
         env:
         - name: KUBECONFIG
           value: "/home/headlamp/.config/Headlamp/kubeconfigs/config"
@@ -207,6 +219,9 @@ spec:
           name: kubeconfig
         - mountPath: /etc/cluster-inventory
           name: cluster-inventory-provider
+          readOnly: true
+        - mountPath: /etc/headlamp/language-packs
+          name: language-packs
           readOnly: true
         - mountPath: /var/run/secrets/cluster-inventory-spoke
           name: cluster-inventory-spoke
@@ -233,6 +248,14 @@ spec:
           - key: credential-plugin.sh
             path: credential-plugin.sh
             mode: 0555
+      - name: language-packs
+        configMap:
+          name: headlamp-language-packs
+          items:
+          - key: pack.json
+            path: e2e-nb/pack.json
+          - key: translation.json
+            path: e2e-nb/headlamp/translation.json
       - name: cluster-inventory-spoke
         secret:
           secretName: headlamp-cluster-inventory-spoke

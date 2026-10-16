@@ -18,6 +18,7 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import sharedConfig from './i18nextSharedConfig.mjs';
+import { getPackStrings } from './languagePackCatalogs';
 import { withRegisteredStrings } from './localeRegistry';
 
 const en = {}; // To keep TS happy.
@@ -180,10 +181,23 @@ i18next
       namespace: Namespace,
       callback: (errorValue: unknown, translations: null | (typeof en)[Namespace]) => void
     ) {
+      // Headlamp's catalog, overridden by the language packs' strings, which
+      // are overridden by the strings that plugins register with registerLocale.
+      const packStrings = getPackStrings(language, namespace);
       import(`./locales/${language.toLowerCase()}/${namespace}.json?import=default`)
-        .then(resources => {
-          // Apply the strings that plugins registered for this language.
-          callback(null, withRegisteredStrings(language, namespace, resources.default));
+        .then(
+          resources => resources.default,
+          error => {
+            // A language that only a pack provides has no Headlamp catalog.
+            if (!packStrings) {
+              throw error;
+            }
+            return {};
+          }
+        )
+        .then(async catalog => {
+          const strings = { ...catalog, ...(await packStrings) };
+          callback(null, withRegisteredStrings(language, namespace, strings));
         })
         .catch(error => {
           callback(error, null);
