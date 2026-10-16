@@ -15,3 +15,5 @@ node_modules
 plugins/headlamp-plugin/headlamp-myfancy/
 plugins/examples/*/dist/
 .DS_Store
+# kapi extract writes bilingual XLIFF files here
+/out/

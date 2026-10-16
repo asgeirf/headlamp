@@ -27,7 +27,11 @@ this.
 `frontend/src/i18n/locales/en/`. A key the Norwegian catalog lacks shows the
 English string. After Headlamp's English strings change,
 `npm run sync-catalogs` adds the new keys with empty values and removes the
-keys English no longer has.
+keys English no longer has. The `headlamp-ui` collection in the repository's
+`kapi.yaml` writes them here, so `kapi status`, `kapi up` and
+`kapi check --ship` work on this directory. See
+[Translating with kapi](../../../docs/development/i18n/contributing.md#translating-with-kapi)
+and [Norwegian terminology](../../../docs/development/i18n/norwegian-terminology.md).
 
 The catalogs are bundled into `main.js` when the plugin is built, so a new
 translation reaches users with a new build of the plugin.

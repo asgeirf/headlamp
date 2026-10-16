@@ -246,9 +246,84 @@ Here's an example of using date formatting:
 
    This will create empty translation files for your new language.
 
-3. **Follow the update workflow above** to translate the strings
+3. **Register the language** in the frontend:
+   - `supportedLanguages` in `frontend/src/i18n/config.ts` (label in the
+     language itself, and text direction)
+   - the Material UI locale in `frontend/src/i18n/ThemeProviderNexti18n.tsx`
+   - the table locale in `frontend/src/components/common/Table/tableLocalization.ts`
+   - the expectations in `frontend/src/i18n/index.test.ts`
+
+4. **Follow the update workflow above** to translate the strings, or
+   [translate with kapi](#translating-with-kapi).
 
 Integrated components may need to be adjusted (MaterialUI/Monaco etc).
+
+## Translating with kapi
+
+The repository carries a [kapi](https://neokapi.github.io/kapi/) project:
+`kapi.yaml` at the root. It declares the English catalogs as the source, the
+target languages, and one collection per plugin that has its own catalogs.
+kapi reads the catalogs with its i18next reader, which keeps the keys,
+plurals and `{{interpolations}}` as they are and translates only the values.
+
+The languages kapi translates ship as language plugins rather than as part of
+Headlamp: kapi writes Headlamp's catalogs in a language to
+`plugins/examples/language-<lang>/locales/<lang>/`, and the plugin adds the
+language to Headlamp with `registerLocale` (see
+[Adding a language with a plugin](../plugins/i18n.md#adding-a-language-with-a-plugin)).
+Norwegian Bokmål is in `plugins/examples/language-nb`.
+
+The approved terminology is kept in `.kapi/terms.json`: the Kubernetes
+concepts, their Norwegian forms (klynge, klyngen, klynger) and the kinds that
+stay in English (Deployment, ConfigMap). Each concept carries a definition,
+the reason for its Norwegian choice and the sources behind it;
+[Norwegian terminology](./norwegian-terminology.md) has the full research and
+the style rules. Load the terms into your kapi workspace once, and again after
+the file changes:
+
+```bash
+kapi store import
+```
+
+kapi asks a person to run this command, because the terms then govern every
+translation of the project on that machine. After you change a term with
+`kapi terms` commands, write the file back with
+`kapi terms export --format bundle -o .kapi/terms.json` and commit it.
+
+After strings change, `npm run i18n` extracts the new keys into every locale
+Headlamp includes. A language plugin keeps its catalogs outside Headlamp, so
+run `npm run sync-catalogs` in the plugin's directory as well: it adds the new
+keys with empty values and removes the keys English no longer has. kapi
+writes a translation only into a key the catalog already holds. `kapi status`
+then shows how much of each language is translated. Bring a language up to
+date in one of three ways:
+
+- **With an AI provider** configured (`kapi credentials add`), `kapi up`
+  translates what is missing, reusing earlier translations and holding new
+  ones to the terms.
+- **With a coding agent** such as Claude Code, the agent translates through
+  kapi. It reads the English strings with `kapi inspect`, the terms with
+  `kapi context`, and writes each translation with `kapi apply` (the
+  `apply_edits` tool over MCP) as the language's edition of the English
+  string. kapi checks each one as it is written and writes the catalog. The
+  kapi skill in `.claude/skills/kapi/` gives the agent these steps.
+- **With a translator** working in a translation tool, `kapi extract
+  --target-lang nb` writes bilingual XLIFF 2 files to `out/`, and
+  `kapi merge -i out/*.xliff` writes the returned translations into the
+  catalogs.
+
+Then run `kapi check --ship`, which checks terminology, placeholders and
+completeness. Keep the `<1>…</1>` tags that `<Trans>` components use exactly
+as they appear in the English string. `kapi status --review` lists the
+translations no reviewer has approved yet. Until a reviewer approves them,
+`kapi check --ship` reports strings that stay in English on purpose, such as
+`CPU` or `Deployments`, as identical to their source.
+
+To add a target language, add it to `defaults.target_languages` in
+`kapi.yaml`, copy `plugins/examples/language-nb` to
+`plugins/examples/language-<lang>` with the new code, label and Material UI
+and table locales in `src/locale.ts`, and add the language's terms to
+`.kapi/terms.json`. `kapi up` then writes the catalogs into the new plugin.
 
 ## Deprecated Tools
 
