@@ -5,8 +5,9 @@ id: prj_vxxhvrrcqofpm33jq2jtckjyci
 name: headlamp
 defaults:
   source_language: en
-  # Every language here is converged by `kapi up`. Add a language by adding it
-  # here and to supportedLanguages in frontend/src/i18n/config.ts.
+  # Every language here is converged by `kapi up`. Each one ships as a
+  # language plugin, plugins/examples/language-<lang>, which adds it to
+  # Headlamp with registerLocale.
   target_languages:
     - nb
 
@@ -16,12 +17,13 @@ collections:
   # Headlamp's UI catalogs: one i18next JSON file per namespace (translation,
   # glossary, app). Keys are the English strings, `|` separates the namespace
   # and `//context:` marks a context variant, so the i18next reader keeps
-  # plural siblings together and protects {{interpolations}}.
+  # plural siblings together and protects {{interpolations}}. The translations
+  # go into the language plugin rather than beside the English catalogs.
   - name: headlamp-ui
     content:
       - path: "frontend/src/i18n/locales/en/*.json"
         format: i18next
-        target: "frontend/src/i18n/locales/{lang}/{name}.json"
+        target: "plugins/examples/language-{lang}/locales/{lang}/{name}.json"
 
   # Plugin catalogs. A plugin that declares `headlamp.i18n` in its
   # package.json keeps locales/<lang>/translation.json beside it; add one

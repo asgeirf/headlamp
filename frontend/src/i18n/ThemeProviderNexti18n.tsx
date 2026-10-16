@@ -27,7 +27,6 @@ import {
   itIT,
   jaJP,
   koKR,
-  nbNO,
   nlNL,
   plPL,
   ptBR,
@@ -63,7 +62,6 @@ function getLocale(locale: string | undefined): typeof enUS {
     cs: enUS, // @todo: material ui needs a translation for this.
     hu: huHU,
     id: idID,
-    nb: nbNO,
     nl: nlNL,
     pl: plPL,
     'pt-pt': ptPT,
@@ -91,7 +89,6 @@ function getLocale(locale: string | undefined): typeof enUS {
     | 'cs'
     | 'hu'
     | 'id'
-    | 'nb'
     | 'nl'
     | 'pl'
     | 'pt-pt'
