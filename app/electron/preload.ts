@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld('desktopApi', {
     const validChannels = [
       'setMenu',
       'locale',
+      'locale-strings',
       'appConfig',
       'pluginsLoaded',
       'run-command',
