@@ -72,6 +72,7 @@ import {
   PluginManager,
   setAppConfigDirName,
 } from './plugin-management';
+import { applyPluginStrings } from './pluginStrings';
 import { readProtocolScheme } from './protocol';
 import { createProtocolHandler } from './protocolHandler';
 import {
@@ -1914,6 +1915,20 @@ function startElectron() {
       if (!!newLocale && i18n.language !== newLocale) {
         i18n.changeLanguage(newLocale);
       }
+    });
+
+    ipcMain.on('locale-strings', (event: IpcMainEvent, locales: unknown) => {
+      if (!isFromMainWindowFrame(event, mainWindow)) {
+        return;
+      }
+      applyPluginStrings(i18n, locales)
+        .then(inUse => {
+          // The menus are rebuilt when the language changes.
+          if (inUse) {
+            i18n.changeLanguage(i18n.language);
+          }
+        })
+        .catch(error => console.error('Failed to apply plugin strings:', error));
     });
 
     ipcMain.on('request-tray-icon', event => {

@@ -17,12 +17,28 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { isElectron } from '../helpers/isElectron';
+import { getRegisteredLocale } from './localeRegistry';
 
 // If we're running under electron, we need to communicate any language changes.
 const ipcRenderer = isElectron() ? window.desktopApi : null;
 
+/**
+ * The `app` strings plugins registered for a language and for English, its
+ * fallback. The Electron process draws the menus and dialogs from them, and
+ * does not load plugins. Languages with none are sent empty, so that strings
+ * from a plugin no longer loaded are removed there.
+ */
+function pluginAppStrings(lang: string) {
+  const strings: Record<string, Record<string, string>> = {};
+  for (const code of new Set([lang, 'en'])) {
+    strings[code] = getRegisteredLocale(code)?.resources?.app ?? {};
+  }
+  return strings;
+}
+
 function tellAppAboutLanguage(lang: string) {
-  if (ipcRenderer) {
+  if (ipcRenderer && lang) {
+    ipcRenderer.send('locale-strings', pluginAppStrings(lang));
     ipcRenderer.send('locale', lang);
   }
 }
@@ -32,6 +48,9 @@ export function useElectronI18n() {
   const { i18n } = useTranslation();
 
   React.useEffect(() => {
+    // The Electron process outlives a reload of this page, so it is told the
+    // current state as well as later changes.
+    tellAppAboutLanguage(i18n.language);
     i18n.on('languageChanged', tellAppAboutLanguage);
     return () => {
       i18n.off('languageChanged', tellAppAboutLanguage);
