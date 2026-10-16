@@ -43,6 +43,8 @@ import {
   setSidebarItemFilter,
 } from '../components/Sidebar/sidebarSlice';
 import { getHeadlampAPIHeaders } from '../helpers/getHeadlampAPIHeaders';
+import type { PluginLocale } from '../i18n/localeRegistry';
+import { addLocale } from '../i18n/registerLocale';
 import { AppTheme } from '../lib/AppTheme';
 import type { ApiResource } from '../lib/k8s/api/v2/ApiResource';
 import { KubeObject } from '../lib/k8s/KubeObject';
@@ -1103,6 +1105,52 @@ export function registerAppTheme(theme: AppTheme, options: AppThemeRegistrationO
 }
 
 /**
+ * Add a language to Headlamp, with Headlamp's strings translated into it, or
+ * change Headlamp's strings in a language that Headlamp includes, including
+ * English.
+ *
+ * A new language is shown in the locale selector. When it is selected, it is
+ * used for Headlamp's pages, the Material UI components and the tables.
+ * Headlamp switches to the new language if the user requested it before all
+ * languages that Headlamp includes: with the `lng` query parameter, by
+ * selecting it on an earlier visit, or in the browser's language settings.
+ *
+ * For a language that Headlamp includes, `resources` replaces Headlamp's
+ * strings for the listed keys, and the other keys are not changed.
+ * `muiLocale` and `tableLocalization` replace the Material UI and table
+ * strings. If more than one plugin registers the same language, the string from
+ * the plugin loaded last is used for each key.
+ *
+ * The plugin's own strings in the language are read from its
+ * `locales/<code>/translation.json`, as for any other language.
+ *
+ * @param locale - The language code, and Headlamp's strings in the language.
+ *
+ * @example
+ *
+ * ```ts
+ * import translation from '../locales/fi/translation.json';
+ * import glossary from '../locales/fi/glossary.json';
+ * import app from '../locales/fi/app.json';
+ *
+ * registerLocale({
+ *   code: 'fi',
+ *   label: 'Suomi',
+ *   resources: { translation, glossary, app },
+ * });
+ *
+ * // Change one of Headlamp's English strings.
+ * registerLocale({
+ *   code: 'en',
+ *   resources: { glossary: { Namespaces: 'Projects' } },
+ * });
+ * ```
+ */
+export function registerLocale(locale: PluginLocale) {
+  addLocale(locale);
+}
+
+/**
  * Starts an action after a period of time giving the user an opportunity to cancel the action.
  *
  * @param callback - called after some time.
@@ -1427,4 +1475,4 @@ export {
   ConfigStore,
 };
 
-export type { CallbackActionOptions, PluginRunCommand };
+export type { CallbackActionOptions, PluginLocale, PluginRunCommand };

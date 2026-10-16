@@ -845,6 +845,7 @@
   "registerHomeSidebarEntryFilter": [Function],
   "registerKindIcon": [Function],
   "registerKubeObjectGlance": [Function],
+  "registerLocale": [Function],
   "registerMapSource": [Function],
   "registerOverviewChartsProcessor": [Function],
   "registerPluginSettings": [Function],

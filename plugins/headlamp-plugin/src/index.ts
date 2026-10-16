@@ -36,6 +36,7 @@ import type {
   AppThemeRegistrationOptions,
   CallbackActionOptions,
   HeadlampEvent,
+  PluginLocale,
   PluginRunCommand,
   Relation,
 } from './plugin/registry';
@@ -72,6 +73,7 @@ import Registry, {
   registerHomeSidebarEntryFilter,
   registerKindIcon,
   registerKubeObjectGlance,
+  registerLocale,
   registerMapSource,
   registerOverviewChartsProcessor,
   registerPluginSettings,
@@ -143,6 +145,7 @@ export {
   registerUIPanel,
   registerAppTheme,
   registerKubeObjectGlance,
+  registerLocale,
   useTranslation,
   isLocaleSupported,
   getSupportedLocales,
@@ -168,6 +171,7 @@ export type {
   DetailsViewSectionProps,
   DefaultSidebars,
   HeadlampEvent,
+  PluginLocale,
   PluginRunCommand,
   Relation,
 };

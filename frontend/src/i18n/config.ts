@@ -18,6 +18,7 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import sharedConfig from './i18nextSharedConfig.mjs';
+import { withRegisteredStrings } from './localeRegistry';
 
 const en = {}; // To keep TS happy.
 
@@ -131,6 +132,40 @@ export const supportedLanguages: {
 
 export const isRTL = (lang: string) => supportedLanguages[lang]?.dir === 'rtl';
 
+/**
+ * The languages the user requested, in order of preference, read before
+ * i18next starts: the `lng` query parameter, the language i18next stored on
+ * the last visit, and the browser's languages. If i18next does not support the
+ * stored language, it replaces it with the fallback language. Languages that
+ * plugins register later (see registerLocale) are therefore matched against
+ * this list.
+ */
+export const requestedLanguages: string[] = readRequestedLanguages();
+
+function readRequestedLanguages(): string[] {
+  const found: string[] = [];
+  try {
+    const fromQuery = new URLSearchParams(window.location.search).get('lng');
+    if (fromQuery) {
+      found.push(fromQuery);
+    }
+  } catch {
+    // window is not defined in this environment.
+  }
+  try {
+    const stored = window.localStorage.getItem('i18nextLng');
+    if (stored) {
+      found.push(stored);
+    }
+  } catch {
+    // localStorage can be blocked.
+  }
+  if (typeof navigator !== 'undefined') {
+    found.push(...(navigator.languages ?? [navigator.language]));
+  }
+  return found.filter(Boolean);
+}
+
 i18next
   // detect user language https://github.com/i18next/i18next-browser-languageDetector
   .use(LanguageDetector)
@@ -147,7 +182,8 @@ i18next
     ) {
       import(`./locales/${language.toLowerCase()}/${namespace}.json?import=default`)
         .then(resources => {
-          callback(null, resources.default);
+          // Apply the strings that plugins registered for this language.
+          callback(null, withRegisteredStrings(language, namespace, resources.default));
         })
         .catch(error => {
           callback(error, null);

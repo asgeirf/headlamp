@@ -41,6 +41,7 @@ import { createTheme, StyledEngineProvider, Theme, ThemeProvider } from '@mui/ma
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from './config';
+import { getRegisteredLocale } from './localeRegistry';
 
 /**
  * Returns the Material-UI locale object for a given language code.
@@ -49,6 +50,11 @@ import { supportedLanguages } from './config';
  * @returns A Material-UI locale object, defaults to enUS if locale is unsupported.
  */
 function getLocale(locale: string | undefined): typeof enUS {
+  const registered = getRegisteredLocale(locale)?.muiLocale;
+  if (registered) {
+    return registered;
+  }
+
   const normalizedLocale = locale?.toLowerCase() ?? 'en';
 
   const LOCALES = {

@@ -21,6 +21,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from '../config';
+import { getRegisteredLocalesVersion, subscribeRegisteredLocales } from '../localeRegistry';
 
 export interface LocaleSelectProps {
   /** Whether to show the title label above the select dropdown. */
@@ -37,6 +38,11 @@ export interface LocaleSelectProps {
 export default function LocaleSelect(props: LocaleSelectProps) {
   const { formControlProps, showFullNames } = props;
   const { t, i18n } = useTranslation();
+  // Plugins can add languages after the first render.
+  const localesVersion = React.useSyncExternalStore(
+    subscribeRegisteredLocales,
+    getRegisteredLocalesVersion
+  );
   /**
    * Returns a memoized mapping of language codes to their full names if showFullNames is true.
    *
@@ -49,7 +55,7 @@ export default function LocaleSelect(props: LocaleSelectProps) {
 
     return getFullNames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showFullNames]);
+  }, [showFullNames, localesVersion]);
 
   /**
    * Handles the change in language selection.
