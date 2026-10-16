@@ -159,6 +159,7 @@ describe('The locales are not empty translations', () => {
     { locale: 'cs', about: 'O produktu', delete: 'Odstranit', cpu: 'CPU' },
     { locale: 'hu', about: 'Névjegy', delete: 'Törlés', cpu: 'CPU' },
     { locale: 'id', about: 'Tentang', delete: 'Hapus', cpu: 'CPU' },
+    { locale: 'nb', about: 'Om', delete: 'Slett', cpu: 'CPU' },
     { locale: 'nl', about: 'Info', delete: 'Verwijderen', cpu: 'CPU' },
     { locale: 'pl', about: 'Informacje', delete: 'Usuń', cpu: 'Procesor CPU' },
     { locale: 'sv', about: 'Om', delete: 'Ta bort', cpu: 'Processor' },
