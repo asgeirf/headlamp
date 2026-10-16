@@ -268,8 +268,11 @@ plurals and `{{interpolations}}` as they are and translates only the values.
 
 The approved terminology is kept in `.kapi/terms.json`: the Kubernetes
 concepts, their Norwegian forms (klynge, klyngen, klynger) and the kinds that
-stay in English (Deployment, ConfigMap). Load it into your kapi workspace
-once, and again after it changes:
+stay in English (Deployment, ConfigMap). Each concept carries a definition,
+the reason for its Norwegian choice and the sources behind it;
+[Norwegian terminology](./norwegian-terminology.md) has the full research and
+the style rules. Load the terms into your kapi workspace once, and again after
+the file changes:
 
 ```bash
 kapi store import

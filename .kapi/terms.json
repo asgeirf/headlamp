@@ -3,9 +3,99 @@
   "kind": "kapi-terms",
   "concepts": [
     {
+      "id": "headlamp-access-mode",
+      "domain": "kubernetes",
+      "definition": "How a volume can be mounted: read-write by one node, read-only by many, and so on.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Access Mode",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Access Modes"
+          ]
+        },
+        {
+          "text": "tilgangsmodus",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "tilgangsmodusen",
+            "tilgangsmoduser",
+            "tilgangsmodusene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Åtkomstlägen; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-affinity",
+      "domain": "kubernetes",
+      "definition": "Rules that attract a pod to, or keep it from, nodes or other pods.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Affinity",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "affinitet",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Anti-affinity is antiaffinitet.",
+          "forms": [
+            "affiniteten",
+            "affiniteter",
+            "antiaffinitet"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://ordbokene.no/nob/bm/affinitet; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-allocatable",
+      "domain": "kubernetes",
+      "definition": "The resources of a node available to pods.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Allocatable",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "allokerbar",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "allokerbare"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Capacity=>Kapasitet",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
       "id": "headlamp-annotation",
       "domain": "kubernetes",
-      "definition": "Not merknad.",
+      "definition": "A key-value pair on an object for tools and people, not for selection.",
       "source": "terminology",
       "terms": [
         {
@@ -20,6 +110,7 @@
           "text": "annotasjon",
           "locale": "nb",
           "status": "approved",
+          "note": "Not merknad, which means a remark (GitLab).",
           "forms": [
             "annotasjonen",
             "annotasjoner",
@@ -27,13 +118,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/reloader 'annotasjonen'; contra https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'KubernetesDashboard|Annotations'=>'Merknader'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-backend",
       "domain": "kubernetes",
-      "definition": "Not serverdel.",
+      "definition": "The Service or endpoint that a route or Ingress forwards traffic to.",
       "source": "terminology",
       "terms": [
         {
@@ -48,6 +143,7 @@
           "text": "backend",
           "locale": "nb",
           "status": "approved",
+          "note": "What Norwegian engineers write. Not serverdel (Microsoft), which is opaque here, and not Motor (GitLab).",
           "forms": [
             "backenden",
             "backender",
@@ -55,13 +151,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/ 'backend' 11x; https://www.folq.no/kubernetes/ 'backend-tjenester'; contra https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes//https://azure.microsoft.com/nb-no/products/application-gateway 'serverdel', Headlamp sv/glossary.json Serverdelar; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Backend=>'Motor' (wrong)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-backendtlspolicy",
       "domain": "kubernetes",
-      "definition": "Gateway API kind, kept in English.",
+      "definition": "The Gateway API BackendTLSPolicy kind: TLS settings from a gateway to a backend.",
       "source": "terminology",
       "terms": [
         {
@@ -78,19 +178,24 @@
           "text": "BackendTLSPolicy",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English. In prose: TLS-policyer for backend.",
           "forms": [
             "BackendTLSPolicies"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:21:54Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-backendtrafficpolicy",
       "domain": "kubernetes",
-      "definition": "Gateway API kind, kept in English.",
+      "definition": "The Gateway API BackendTrafficPolicy kind: traffic settings for a backend.",
       "source": "terminology",
       "terms": [
         {
@@ -107,19 +212,84 @@
           "text": "BackendTrafficPolicy",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "BackendTrafficPolicies"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:21:54Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-capacity",
+      "domain": "kubernetes",
+      "definition": "The total resources of a node.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Capacity",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "kapasitet",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "kapasiteten"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Capacity=>Kapasitet",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-claim",
+      "domain": "kubernetes",
+      "definition": "A request for a resource, as in a persistent volume claim.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Claim",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Claims"
+          ]
+        },
+        {
+          "text": "krav",
+          "locale": "nb",
+          "status": "approved",
+          "note": "A noun. Swedish Gör anspråk (a verb) is a mistranslation.",
+          "forms": [
+            "kravet",
+            "kravene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-cluster",
       "domain": "kubernetes",
-      "definition": "A set of nodes managed by one Kubernetes control plane.",
+      "definition": "A set of nodes run by one Kubernetes control plane.",
       "source": "terminology",
       "terms": [
         {
@@ -134,6 +304,7 @@
           "text": "klynge",
           "locale": "nb",
           "status": "approved",
+          "note": "Every Norwegian product translation found uses klynge. Norwegian engineers often write cluster/clusteret in prose (Kartverket SKIP), but the UI follows the product translations.",
           "forms": [
             "klyngen",
             "klynger",
@@ -142,13 +313,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ (klynge/klyngen/klynger 50+x); https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Cluster=>Klynge, 'Add Kubernetes cluster'=>'Legg til Kubernetes-klynge'; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Cluster=>Klynge; https://ordbokene.no/nob/bm/klynge; contra https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/logge-inn-p%C3%A5-cluster 'Logg inn på clusteret' (SKIP 36x clusteret)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-cluster-inventory",
       "domain": "kubernetes",
-      "definition": "The SIG-Multicluster ClusterInventory API, named as a source.",
+      "definition": "The SIG-Multicluster ClusterInventory API, named as a source of clusters.",
       "source": "terminology",
       "terms": [
         {
@@ -159,17 +334,55 @@
         {
           "text": "Cluster Inventory",
           "locale": "nb",
-          "status": "approved"
+          "status": "approved",
+          "note": "API name kept in English."
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:21:54Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "Headlamp convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-condition",
+      "domain": "kubernetes",
+      "definition": "A status entry that reports one aspect of an object's state.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Condition",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Conditions"
+          ]
+        },
+        {
+          "text": "betingelse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "betingelsen",
+            "betingelser",
+            "betingelsene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Villkor; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-configmap",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes ConfigMap kind: non-secret configuration as key-value pairs.",
       "source": "terminology",
       "terms": [
         {
@@ -186,19 +399,24 @@
           "text": "ConfigMap",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "ConfigMaps"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/argokit/argokit-v2 'ConfigMap' (SKIP 62x); Headlamp de/glossary.json Config Maps",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-container",
       "domain": "kubernetes",
-      "definition": "Not beholder.",
+      "definition": "A packaged process with its own filesystem, run from an image.",
       "source": "terminology",
       "terms": [
         {
@@ -213,6 +431,7 @@
           "text": "container",
           "locale": "nb",
           "status": "approved",
+          "note": "A dictionary-sanctioned loanword and what Norwegian engineers write. Not beholder (Microsoft, Proxmox), which reads as a generic vessel.",
           "forms": [
             "containeren",
             "containere",
@@ -221,13 +440,79 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://ordbokene.no/nob/bm/container (containeren, containere, containerne); https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/helsesjekker-i-kubernetes 'containere i poden'; https://www.folq.no/kubernetes/; http://qtips.github.io/2019/07/kubernetes-basics; contra https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started//https://azure.microsoft.com/nb-no/products/container-registry 'beholder(e)', https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Container=>Beholder | https://ordbokene.no/nob/bm/container; https://skip.kartverket.no/docs/",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-container-runtime",
+      "domain": "kubernetes",
+      "definition": "The software on a node that runs containers.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Container Runtime",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "containerkjøretid",
+          "locale": "nb",
+          "status": "approved",
+          "note": "runtime = kjøretid, as in kjøretidsklasse.",
+          "forms": [
+            "containerkjøretiden"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Containerkörning; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-context",
+      "domain": "kubernetes",
+      "definition": "A named cluster, user and namespace combination in a kubeconfig.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Context",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Contexts"
+          ]
+        },
+        {
+          "text": "kontekst",
+          "locale": "nb",
+          "status": "approved",
+          "note": "An exact cognate engineers recognise. SKIP keeps context.",
+          "forms": [
+            "konteksten",
+            "kontekster",
+            "kontekstene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "contra https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/logge-inn-p%C3%A5-cluster 'context'; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-cordon",
       "domain": "kubernetes",
-      "definition": "Node action: Sperr for planlegging.",
+      "definition": "Marking a node so no new pods are scheduled on it.",
       "source": "terminology",
       "terms": [
         {
@@ -243,6 +528,7 @@
           "text": "sperr",
           "locale": "nb",
           "status": "approved",
+          "note": "Long form Sperr for planlegging.",
           "forms": [
             "sperrer",
             "sperret",
@@ -252,13 +538,49 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json 'Planungssperre setzen'; Headlamp sv/glossary.json Blockera; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-crd",
+      "domain": "kubernetes",
+      "definition": "An object that adds a custom resource type to the API.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Custom Resource Definition",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Custom Resource Definitions"
+          ]
+        },
+        {
+          "text": "definisjon av egendefinert ressurs",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Keep the acronym CRD in short labels and headings.",
+          "forms": [
+            "definisjoner av egendefinerte ressurser",
+            "definisjonen av egendefinert ressurs"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-cronjob",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes CronJob kind: Jobs run on a schedule.",
       "source": "terminology",
       "terms": [
         {
@@ -275,6 +597,7 @@
           "text": "CronJob",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "CronJobs",
             "cronjobben"
@@ -282,12 +605,17 @@
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/ 'CronJob', 'suspenderer cronjobben'; Headlamp sv/glossary.json Cron-jobb",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-custom-resource",
       "domain": "kubernetes",
+      "definition": "An object of a type that extends the Kubernetes API.",
       "source": "terminology",
       "terms": [
         {
@@ -302,6 +630,7 @@
           "text": "egendefinert ressurs",
           "locale": "nb",
           "status": "approved",
+          "note": "custom = egendefinert, the Microsoft convention.",
           "forms": [
             "egendefinerte ressurser",
             "egendefinerte ressursen",
@@ -309,13 +638,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Anpassade resurser; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-daemonset",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes DaemonSet kind: one pod on each matching node.",
       "source": "terminology",
       "terms": [
         {
@@ -332,19 +665,24 @@
           "text": "DaemonSet",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "DaemonSets"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json Daemon-Sets; convention with ReplicaSet/StatefulSet",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-deployment",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English. The act of deploying is utrulling.",
+      "definition": "The Kubernetes Deployment kind: declarative updates for pods and ReplicaSets.",
       "source": "terminology",
       "terms": [
         {
@@ -359,6 +697,7 @@
           "text": "Deployment",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English. The act of deploying is utrulling, never distribusjon (collides with a Linux distribution).",
           "forms": [
             "Deployments",
             "deploymentet"
@@ -366,13 +705,17 @@
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/ 'deployment' 74x as kind + 'utrulling' 99x for the act (section 'Applikasjon-utrulling'); https://www.folq.no/kubernetes/ 'deployments'; contra https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started//https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'distribusjon', https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'Distribuering' | https://skip.kartverket.no/docs/; Headlamp de/glossary.json keeps Deployments",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-drain",
       "domain": "kubernetes",
-      "definition": "Node action.",
+      "definition": "Evicting all pods from a node before maintenance.",
       "source": "terminology",
       "terms": [
         {
@@ -388,6 +731,7 @@
           "text": "tøm",
           "locale": "nb",
           "status": "approved",
+          "note": "Drain Node = Tøm node.",
           "forms": [
             "tømmer",
             "tømte",
@@ -398,13 +742,17 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json Entleeren; Headlamp sv/glossary.json Rensa; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-egress",
       "domain": "kubernetes",
-      "definition": "NetworkPolicy direction.",
+      "definition": "The outbound direction of a NetworkPolicy rule.",
       "source": "terminology",
       "terms": [
         {
@@ -415,15 +763,21 @@
         {
           "text": "utgående",
           "locale": "nb",
-          "status": "approved"
+          "status": "approved",
+          "note": "Direction label; Ingress as a direction is inngående."
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Utgående; https://skip.kartverket.no/docs/applikasjon-utrulling/argokit/argokit-v2 'utgående trafikk'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-endpoint",
       "domain": "kubernetes",
+      "definition": "A network address that serves a Service.",
       "source": "terminology",
       "terms": [
         {
@@ -445,13 +799,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'stabilt endepunkt'; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'endepunkts konfigurasjon'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-endpointslice",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes EndpointSlice kind: a subset of the endpoints behind a Service.",
       "source": "terminology",
       "terms": [
         {
@@ -468,19 +826,88 @@
           "text": "EndpointSlice",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English; no settled Norwegian term.",
           "forms": [
             "EndpointSlices"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:21:54Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Slutpunktsutsnitt; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-environment",
+      "domain": "kubernetes",
+      "definition": "Environment variables passed to a container.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Environment",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "miljø",
+          "locale": "nb",
+          "status": "approved",
+          "note": "As in GitLab.",
+          "forms": [
+            "miljøet",
+            "miljøer",
+            "miljøene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Environment=>Miljø",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-ephemeral-container",
+      "domain": "kubernetes",
+      "definition": "A temporary container added to a running pod, usually for debugging.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Ephemeral Container",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Ephemeral Containers"
+          ]
+        },
+        {
+          "text": "flyktig container",
+          "locale": "nb",
+          "status": "approved",
+          "note": "ephemeral = flyktig.",
+          "forms": [
+            "flyktige containere",
+            "flyktige containeren",
+            "flyktige containerne"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-event",
       "domain": "kubernetes",
-      "definition": "Kubernetes event.",
+      "definition": "A record of something that happened to an object.",
       "source": "terminology",
       "terms": [
         {
@@ -495,6 +922,7 @@
           "text": "hendelse",
           "locale": "nb",
           "status": "approved",
+          "note": "As in GitLab's Kubernetes dashboard.",
           "forms": [
             "hendelsen",
             "hendelser",
@@ -502,13 +930,115 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'KubernetesDashboard|Events'=>'Hendelser'; https://skip.kartverket.no/docs/ hendelser; Headlamp sv/glossary.json Händelser",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-gateway",
+      "domain": "kubernetes",
+      "definition": "The Gateway API resource that accepts traffic into the cluster.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Gateway",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Gateways"
+          ]
+        },
+        {
+          "text": "gateway",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Loanword.",
+          "forms": [
+            "gatewayen",
+            "gatewayer",
+            "gatewayene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Gateways; https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'gateway-API-en'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-gateway-class",
+      "domain": "kubernetes",
+      "definition": "The controller that implements a set of Gateways.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Gateway Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Gateway Classes"
+          ]
+        },
+        {
+          "text": "gateway-klasse",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Hyphenated because the first part is an English word.",
+          "forms": [
+            "gateway-klassen",
+            "gateway-klasser",
+            "gateway-klassene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Gateway-klasser",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-hpa",
+      "domain": "kubernetes",
+      "definition": "Scales the number of pod replicas from observed metrics.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Horizontal Pod Autoscaler",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Horizontal Pod Autoscalers"
+          ]
+        },
+        {
+          "text": "horisontal pod-autoskalerer",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Keep HPA in short labels.",
+          "forms": [
+            "horisontale pod-autoskalerere",
+            "horisontal pod-autoskalereren"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'skalering'; Headlamp sv/glossary.json Horisontella poddautoskalningar",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-image",
       "domain": "kubernetes",
-      "definition": "Container image. Not bilde.",
+      "definition": "A packaged filesystem and configuration that containers are started from.",
       "source": "terminology",
       "terms": [
         {
@@ -523,6 +1053,7 @@
           "text": "image",
           "locale": "nb",
           "status": "approved",
+          "note": "Neuter loanword (imaget). Not bilde, which reads as picture, and not beholderbilde (Microsoft).",
           "forms": [
             "imaget",
             "imager",
@@ -530,13 +1061,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/argo-cd/hva-er-et-apps-repo 'imaget' (SKIP 20x imaget, 0x beholderbilde); https://www.folq.no/kubernetes/ 'container-images'; http://qtips.github.io/2019/07/kubernetes-basics 'Imaget'; https://ordbokene.no/nob/bm/image (imaget, imager); contra https://azure.microsoft.com/nb-no/products/container-registry 'beholderbilder', Headlamp sv/glossary.json Bild | https://ordbokene.no/nob/bm/image; https://skip.kartverket.no/docs/",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-ingress",
       "domain": "kubernetes",
-      "definition": "Ingress resources. As a NetworkPolicy direction, Ingress is inngående and Egress utgående.",
+      "definition": "The Kubernetes Ingress resource: HTTP routing from outside the cluster to Services.",
       "source": "terminology",
       "terms": [
         {
@@ -551,19 +1086,56 @@
           "text": "ingresser",
           "locale": "nb",
           "status": "approved",
+          "note": "Loanword for the resource (ingress, ingressen, ingresser). As a NetworkPolicy direction the same English word is inngående. Not inngang (Microsoft).",
           "forms": [
             "ingressene",
             "ingressklasser"
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator/configuring 'ingressene'; https://www.folq.no/kubernetes/ 'ingress-kontrollere'; contra https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'inngang' | Headlamp sv/glossary.json Inkommande; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-ingress-class",
+      "domain": "kubernetes",
+      "definition": "The controller that implements a set of Ingresses.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Ingress Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Ingress Classes"
+          ]
+        },
+        {
+          "text": "ingressklasse",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ingressklassen",
+            "ingressklasser",
+            "ingressklassene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Ingressklass",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-job",
       "domain": "kubernetes",
-      "definition": "Kubernetes Job. The kind CronJob stays in English.",
+      "definition": "The Kubernetes Job kind: pods that run to completion.",
       "source": "terminology",
       "terms": [
         {
@@ -578,6 +1150,7 @@
           "text": "jobb",
           "locale": "nb",
           "status": "approved",
+          "note": "Translated, as in GitLab's Kubernetes dashboard. The kind CronJob stays in English.",
           "forms": [
             "jobben",
             "jobber",
@@ -586,13 +1159,17 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'KubernetesDashboard|Jobs'=>'Jobber'; https://skip.kartverket.no/docs/ 'jobben'; Headlamp sv/glossary.json Jobb",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-jobset",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The JobSet custom resource kind: a group of Jobs run as one workload.",
       "source": "terminology",
       "terms": [
         {
@@ -609,19 +1186,79 @@
           "text": "JobSet",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "JobSets"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:21:54Z",
-      "updated_at": "2026-10-15T22:21:54Z"
+      "properties": {
+        "evidence": "convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-kind",
+      "domain": "kubernetes",
+      "definition": "The kind field of a Kubernetes object: the name of its type.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Kind",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "Kind",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Kept as the API field name. Type (type) would collide with Service type and Strategy Type."
+        }
+      ],
+      "do_not_translate": true,
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Typ; Headlamp de/glossary.json Art; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-kubeconfig",
+      "domain": "kubernetes",
+      "definition": "The configuration file kubectl and Headlamp read cluster access from.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "kubeconfig",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "kubeconfig",
+          "locale": "nb",
+          "status": "approved",
+          "note": "File and tool name.",
+          "forms": [
+            "kubeconfig-filen"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/logge-inn-p%C3%A5-cluster 'Generer kubeconfig og sett som aktiv context'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-label",
       "domain": "kubernetes",
-      "definition": "Kubernetes label.",
+      "definition": "A key-value pair on an object, used to select it.",
       "source": "terminology",
       "terms": [
         {
@@ -636,6 +1273,7 @@
           "text": "etikett",
           "locale": "nb",
           "status": "approved",
+          "note": "As in GitLab and SKIP.",
           "forms": [
             "etiketten",
             "etiketter",
@@ -643,13 +1281,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator/configuring 'merkelapp (label)', SKIP 'etiketter'; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Label=>Etikett; Headlamp sv/glossary.json Etiketter",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-lease",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes Lease kind, used for leader election and node heartbeats.",
       "source": "terminology",
       "terms": [
         {
@@ -664,19 +1306,24 @@
           "text": "Lease",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English. The DHCP sense (leieavtale) does not fit.",
           "forms": [
             "Leases"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json Lease; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-limitrange",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes LimitRange kind: default and maximum resource limits in a namespace.",
       "source": "terminology",
       "terms": [
         {
@@ -693,19 +1340,92 @@
           "text": "LimitRange",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English; no settled Norwegian term.",
           "forms": [
             "LimitRanges"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json Limit Ranges; Headlamp sv/glossary.json Gränsintervall",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-listener",
+      "domain": "kubernetes",
+      "definition": "A port and protocol a Gateway accepts traffic on.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Listener",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Listeners"
+          ]
+        },
+        {
+          "text": "lytter",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "lytteren",
+            "lyttere",
+            "lytterne"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Lyssnare; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-mount",
+      "domain": "kubernetes",
+      "definition": "Attaching a volume at a path inside a container.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Mount",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Mounts"
+          ]
+        },
+        {
+          "text": "montering",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Noun montering, verb monter.",
+          "forms": [
+            "monteringen",
+            "monteringer",
+            "monteringene",
+            "monter",
+            "monteres",
+            "montert"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po Mount=>Montér; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Mount=>Monter",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-namespace",
       "domain": "kubernetes",
-      "definition": "Kubernetes namespace. Not navneområde.",
+      "definition": "A scope for names that divides one cluster between users or projects.",
       "source": "terminology",
       "terms": [
         {
@@ -720,6 +1440,7 @@
           "text": "navnerom",
           "locale": "nb",
           "status": "approved",
+          "note": "Contested: navneområde (Microsoft, GNOME) and navnerom (Digdir, GitLab plural, SKIP when it translates) both exist. navnerom is shorter and compounds well (navneromsvelger). Never navneområde.",
           "forms": [
             "navnerommet",
             "navnerommene",
@@ -728,12 +1449,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://github.com/Informasjonsforvaltning/dcat-ap-no (docs/Navnerom.adoc) 'Navnerom'; https://github.com/doxygen/doxygen/blob/master/src/translator_no.h 'Navnerom'; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Namespaces=>Navnerom (but Namespace=>Navnefelt, 'Namespace:'=>Navneområde); https://skip.kartverket.no/docs/applikasjon-utrulling/argokit/argokit-v1 'dette navnerommet'; contra https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ 'navneområde/navneområder', https://gitlab.gnome.org/GNOME/glib/-/blob/main/po/nb.po navneområde; https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/jobbe-med-cluster 'Podder som kjører i et namespace'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-network-policy",
       "domain": "kubernetes",
+      "definition": "Rules for which traffic may reach or leave a set of pods.",
       "source": "terminology",
       "terms": [
         {
@@ -755,13 +1481,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator 'nettverkspolicyer'; Headlamp sv/glossary.json Nätverksprinciper",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-node",
       "domain": "kubernetes",
-      "definition": "A machine in the cluster.",
+      "definition": "A worker machine in a cluster.",
       "source": "terminology",
       "terms": [
         {
@@ -776,6 +1506,7 @@
           "text": "node",
           "locale": "nb",
           "status": "approved",
+          "note": "Same spelling as English with Norwegian inflection. All sources agree.",
           "forms": [
             "noden",
             "noder",
@@ -784,12 +1515,147 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://ordbokene.no/nob/bm/node; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Node/Nodes=>Node/Noder; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Nodes=>Noder; https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ noder/arbeidsnoder",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-node-pool",
+      "domain": "kubernetes",
+      "definition": "A group of nodes with the same configuration.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Node Pool",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Node Pools"
+          ]
+        },
+        {
+          "text": "nodepool",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Pool is used untranslated in Norwegian UIs (Proxmox, Cockpit).",
+          "forms": [
+            "nodepoolen",
+            "nodepooler",
+            "nodepoolene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Pool/Pools=>Pool/Pooler; https://github.com/cockpit-project/cockpit-machines/blob/acd4b022a8bd76110e09cbd8ff313a9445e72b13/po/nb_NO.po 'Storage pools'=>'Lagrings-pooler'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-node-selector",
+      "domain": "kubernetes",
+      "definition": "Labels a node must have for a pod to run on it.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Node Selector",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Node Selectors"
+          ]
+        },
+        {
+          "text": "nodevelger",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "nodevelgeren",
+            "nodevelgere",
+            "nodevelgerne"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json 'Val av nod'; convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-owner",
+      "domain": "kubernetes",
+      "definition": "The object that created and manages another object.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Owner",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Owners"
+          ]
+        },
+        {
+          "text": "eier",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "eieren",
+            "eiere",
+            "eierne"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Ägare",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-pdb",
+      "domain": "kubernetes",
+      "definition": "A limit on how many pods of an application may be down at once by choice.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Pod Disruption Budget",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Pod Disruption Budgets"
+          ]
+        },
+        {
+          "text": "avbruddsbudsjett for podder",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Keep PDB in short labels.",
+          "forms": [
+            "avbruddsbudsjetter for podder",
+            "avbruddsbudsjettet for podder"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json 'Störningsbudget för podd'; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-persistent-volume",
       "domain": "kubernetes",
+      "definition": "Cluster storage that outlives the pods using it.",
       "source": "terminology",
       "terms": [
         {
@@ -804,19 +1670,24 @@
           "text": "vedvarende volum",
           "locale": "nb",
           "status": "approved",
+          "note": "The acronym PV may stay.",
           "forms": [
             "vedvarende volumer",
             "vedvarende volumet"
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Beständiga volymer; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-persistent-volume-claim",
       "domain": "kubernetes",
-      "definition": "Claim is krav.",
+      "definition": "A request for persistent storage by a user or pod.",
       "source": "terminology",
       "terms": [
         {
@@ -831,19 +1702,24 @@
           "text": "vedvarende volumkrav",
           "locale": "nb",
           "status": "approved",
+          "note": "Claim is the noun krav, never a verb.",
           "forms": [
             "vedvarende volumkravet",
             "vedvarende volumkravene"
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Bestående volymanspråk; convention (no nb source found) | convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-plugin",
       "domain": "kubernetes",
-      "definition": "Headlamp plugin.",
+      "definition": "A Headlamp extension loaded into the UI.",
       "source": "terminology",
       "terms": [
         {
@@ -858,6 +1734,7 @@
           "text": "programtillegg",
           "locale": "nb",
           "status": "approved",
+          "note": "As in Picard and WinMerge. Not utvidelse (Cockpit).",
           "forms": [
             "programtillegget",
             "programtilleggene",
@@ -865,13 +1742,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://github.com/metabrainz/picard/blob/master/po/nb.po; https://github.com/WinMerge/winmerge/blob/master/Translations/WinMerge/Norwegian.po Plugins=>Programtillegg; contra https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po plugin=>utvidelse",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-pod",
       "domain": "kubernetes",
-      "definition": "Kubernetes pod. Plural podder, not poder.",
+      "definition": "The smallest deployable unit: one or more containers scheduled together.",
       "source": "terminology",
       "terms": [
         {
@@ -886,6 +1767,7 @@
           "text": "pod",
           "locale": "nb",
           "status": "approved",
+          "note": "Keep the API spelling pod in the singular, plural podder/poddene as the dictionary gives. Never poder, and not podd (reads as podcast).",
           "forms": [
             "poden",
             "podder",
@@ -894,13 +1776,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://ordbokene.no/nob/bm/podd (pod: podden, podder, poddene); https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ podder/poddene 35x; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'Pods in use'=>'Podder som brukes'; https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/jobbe-med-cluster 'Podder som kjører i et namespace'; https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/helsesjekker-i-kubernetes 'poden'; contra https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ 'poder'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-policy",
       "domain": "kubernetes",
-      "definition": "Not retningslinje.",
+      "definition": "A set of rules applied to objects or traffic.",
       "source": "terminology",
       "terms": [
         {
@@ -915,6 +1801,7 @@
           "text": "policy",
           "locale": "nb",
           "status": "approved",
+          "note": "Not retningslinje (GitLab), which is a guideline.",
           "forms": [
             "policyen",
             "policyer",
@@ -923,12 +1810,17 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://ordbokene.no/nob/bm/policy; https://azure.microsoft.com/nb-no/products/key-vault 'policyer'; https://skip.kartverket.no/docs/ 'policyer'; https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po 'SELinux-policy'; contra https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Policies=>Retningslinjer",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-port-forwarding",
       "domain": "kubernetes",
+      "definition": "Forwarding a local port to a port in a pod.",
       "source": "terminology",
       "terms": [
         {
@@ -943,6 +1835,7 @@
           "text": "portvideresending",
           "locale": "nb",
           "status": "approved",
+          "note": "Start/Stop port forward = Start/Stopp portvideresending.",
           "forms": [
             "portvideresendingen",
             "portvideresendinger",
@@ -950,12 +1843,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://github.com/rustdesk/rustdesk/blob/master/src/lang/nb.rs 'portvideresending'; https://github.com/agalwood/Motrix/blob/master/src/shared/locales/nb.json 'Portvideresending (NAT)'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-priority-class",
       "domain": "kubernetes",
+      "definition": "A named scheduling priority for pods.",
       "source": "terminology",
       "terms": [
         {
@@ -977,13 +1875,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Prioritetsklasser",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-probe",
       "domain": "kubernetes",
-      "definition": "liveness-prober, readiness-prober, startup-prober.",
+      "definition": "A periodic check of a container's health.",
       "source": "terminology",
       "terms": [
         {
@@ -998,6 +1900,7 @@
           "text": "probe",
           "locale": "nb",
           "status": "approved",
+          "note": "What Norwegian engineers write; liveness-prober, readiness-prober, startup-prober. Not sonde (medical); helsesjekk only in prose.",
           "forms": [
             "proben",
             "prober",
@@ -1005,12 +1908,175 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/helsesjekker-i-kubernetes 'Startup probe', heading 'Helsesjekker i Kubernetes'; Headlamp sv/glossary.json avsökningar; Headlamp de/glossary.json Prüfungen | https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/helsesjekker-i-kubernetes",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-provisioner",
+      "domain": "kubernetes",
+      "definition": "The component that creates storage for a storage class.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Provisioner",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Provisioners"
+          ]
+        },
+        {
+          "text": "klargjører",
+          "locale": "nb",
+          "status": "approved",
+          "note": "provision = klargjøre.",
+          "forms": [
+            "klargjøreren",
+            "klargjørere",
+            "klargjørerne"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Etablerare; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-qos-class",
+      "domain": "kubernetes",
+      "definition": "A pod's quality-of-service class, derived from its requests and limits.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "QoS Class",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "QoS Classes"
+          ]
+        },
+        {
+          "text": "QoS-klasse",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Hyphenated with the acronym.",
+          "forms": [
+            "QoS-klassen",
+            "QoS-klasser",
+            "QoS-klassene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-readiness-gate",
+      "domain": "kubernetes",
+      "definition": "An extra condition a pod must meet before it counts as ready.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Readiness Gate",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Readiness Gates"
+          ]
+        },
+        {
+          "text": "readiness-gate",
+          "locale": "nb",
+          "status": "approved",
+          "note": "No Norwegian term; the Swedish and German calques read poorly.",
+          "forms": [
+            "readiness-gates"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-reclaim-policy",
+      "domain": "kubernetes",
+      "definition": "What happens to a persistent volume when its claim is released.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Reclaim Policy",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "gjenvinningspolicy",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "gjenvinningspolicyen"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-reference-grant",
+      "domain": "kubernetes",
+      "definition": "The Gateway API ReferenceGrant kind: permits references across namespaces.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "ReferenceGrant",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "ReferenceGrants",
+            "Reference Grants",
+            "Reference Grant"
+          ]
+        },
+        {
+          "text": "ReferenceGrant",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Kind name kept in English; no Norwegian term.",
+          "forms": [
+            "ReferenceGrants"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "properties": {
+        "evidence": "convention",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-replica",
       "domain": "kubernetes",
+      "definition": "One of several identical copies of a pod.",
       "source": "terminology",
       "terms": [
         {
@@ -1033,13 +2099,17 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'replikaer'; https://skip.kartverket.no/docs/ 'replikaer'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-replicaset",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes ReplicaSet kind: keeps a set number of identical pods running.",
       "source": "terminology",
       "terms": [
         {
@@ -1056,18 +2126,57 @@
           "text": "ReplicaSet",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English. Where the English splits it into words, write the kind.",
           "forms": [
             "ReplicaSets"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ 'Distribusjoner bruker dessuten ReplicaSets'; Headlamp de/glossary.json Replika-Sets",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-resource",
+      "domain": "kubernetes",
+      "definition": "An object in the Kubernetes API, or an amount of CPU, memory or storage.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Resource",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Resources"
+          ]
+        },
+        {
+          "text": "ressurs",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "ressursen",
+            "ressurser",
+            "ressursene"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Resources=>Ressurser",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-resource-quota",
       "domain": "kubernetes",
+      "definition": "Limits on the total resources a namespace may use.",
       "source": "terminology",
       "terms": [
         {
@@ -1089,12 +2198,50 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'Usage quotas'=>'Brukskvoter'; Headlamp sv/glossary.json Resurskvoter",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-role",
+      "domain": "kubernetes",
+      "definition": "A set of permissions in a namespace.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Role",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Roles"
+          ]
+        },
+        {
+          "text": "rolle",
+          "locale": "nb",
+          "status": "approved",
+          "note": "As in Proxmox and Cockpit.",
+          "forms": [
+            "rollen",
+            "roller",
+            "rollene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Role/Roles=>Rolle/Roller; https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po roles=>roller",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-role-binding",
       "domain": "kubernetes",
+      "definition": "A grant of a role to users, groups or service accounts.",
       "source": "terminology",
       "terms": [
         {
@@ -1116,12 +2263,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Rollbindningar; Headlamp de/glossary.json Rollenbindungen",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-runtime-class",
       "domain": "kubernetes",
+      "definition": "A named container runtime configuration.",
       "source": "terminology",
       "terms": [
         {
@@ -1136,6 +2288,7 @@
           "text": "kjøretidsklasse",
           "locale": "nb",
           "status": "approved",
+          "note": "runtime = kjøretid.",
           "forms": [
             "kjøretidsklassen",
             "kjøretidsklasser",
@@ -1143,13 +2296,17 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Körningsklasser; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-secret",
       "domain": "kubernetes",
-      "definition": "Kubernetes Secret.",
+      "definition": "The Kubernetes Secret kind: sensitive data such as passwords and tokens.",
       "source": "terminology",
       "terms": [
         {
@@ -1164,6 +2321,7 @@
           "text": "hemmelighet",
           "locale": "nb",
           "status": "approved",
+          "note": "Translated, as SKIP, Azure and GitLab do for the concept.",
           "forms": [
             "hemmeligheten",
             "hemmeligheter",
@@ -1171,13 +2329,50 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/tilgangsstyring/accesserator/klienter-og-hemmeligheter 'hemmeligheter' (SKIP 145x hemmelighet*); https://azure.microsoft.com/nb-no/solutions/kubernetes-on-azure/get-started/ 'hemmeligheter, et annet Kubernetes-objekt'; https://azure.microsoft.com/nb-no/products/key-vault; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'Copy secret'=>'Kopier hemmelighet'; Headlamp sv/glossary.json Hemligheter",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-selector",
+      "domain": "kubernetes",
+      "definition": "A query over labels that picks a set of objects.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Selector",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Selectors"
+          ]
+        },
+        {
+          "text": "velger",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Field names such as nodeSelector stay as they are in YAML.",
+          "forms": [
+            "velgeren",
+            "velgere",
+            "velgerne"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Väljare; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-service",
       "domain": "kubernetes",
-      "definition": "Kubernetes Service.",
+      "definition": "The Kubernetes Service kind: a stable network address for a set of pods.",
       "source": "terminology",
       "terms": [
         {
@@ -1192,6 +2387,7 @@
           "text": "tjeneste",
           "locale": "nb",
           "status": "approved",
+          "note": "Translated, as in every Norwegian product translation found. Use Service only when quoting the kind.",
           "forms": [
             "tjenesten",
             "tjenester",
@@ -1200,12 +2396,17 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po 'KubernetesDashboard|Services'=>'Tjenester'; https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ Service=Tjeneste; https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po Services=>Tjenester; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po Services=>Tjenester",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-service-account",
       "domain": "kubernetes",
+      "definition": "An identity for processes that run in pods.",
       "source": "terminology",
       "terms": [
         {
@@ -1220,6 +2421,7 @@
           "text": "tjenestekonto",
           "locale": "nb",
           "status": "approved",
+          "note": "SKIP writes tjenestekonto (service account).",
           "forms": [
             "tjenestekontoen",
             "tjenestekontoer",
@@ -1227,13 +2429,45 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator/configuring 'tjenestekonto (service account)'; https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator 'tjenestekontoer'; Headlamp sv/glossary.json Tjänstkonto",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-session-affinity",
+      "domain": "kubernetes",
+      "definition": "Routing a client to the same pod for each request.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Session Affinity",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "øktaffinitet",
+          "locale": "nb",
+          "status": "approved",
+          "note": "session = økt.",
+          "forms": [
+            "øktaffiniteten"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-statefulset",
       "domain": "kubernetes",
-      "definition": "Kubernetes kind, kept in English.",
+      "definition": "The Kubernetes StatefulSet kind: pods with stable identities and storage.",
       "source": "terminology",
       "terms": [
         {
@@ -1250,18 +2484,52 @@
           "text": "StatefulSet",
           "locale": "nb",
           "status": "approved",
+          "note": "Kind name kept in English.",
           "forms": [
             "StatefulSets"
           ]
         }
       ],
       "do_not_translate": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://skip.kartverket.no/docs/applikasjon-utrulling/skiperator/api-docs 'StatefulSet'; Headlamp de/glossary.json Stateful Sets",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-storage",
+      "domain": "kubernetes",
+      "definition": "Persistent data capacity offered to workloads.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Storage",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "lagring",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "lagringen"
+          ]
+        }
+      ],
+      "advisory": true,
+      "properties": {
+        "evidence": "https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po; https://github.com/cockpit-project/cockpit-machines/blob/acd4b022a8bd76110e09cbd8ff313a9445e72b13/po/nb_NO.po; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po; https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Storage=>Lagring",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-storage-class",
       "domain": "kubernetes",
+      "definition": "A class of storage with its own provisioner and parameters.",
       "source": "terminology",
       "terms": [
         {
@@ -1283,13 +2551,82 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Lagringsklasser; derived from Storage",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-taint",
+      "domain": "kubernetes",
+      "definition": "A node property that repels pods that do not tolerate it.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Taint",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Taints"
+          ]
+        },
+        {
+          "text": "taint",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Kept in English, paired with toleration; no Norwegian source. Swedish Spår is misleading.",
+          "forms": [
+            "tainten",
+            "taints"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Spår; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-toleration",
+      "domain": "kubernetes",
+      "definition": "A pod property that lets it run on a node with a matching taint.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Toleration",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Tolerations"
+          ]
+        },
+        {
+          "text": "toleration",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Kept in English, paired with taint. Toleranse(r), as in Swedish and German, is the alternative.",
+          "forms": [
+            "tolerations"
+          ]
+        }
+      ],
+      "do_not_translate": true,
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Toleranser; Headlamp de/glossary.json Toleranzen; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-uncordon",
       "domain": "kubernetes",
-      "definition": "Node action.",
+      "definition": "Allowing pods to be scheduled on a cordoned node again.",
       "source": "terminology",
       "terms": [
         {
@@ -1315,12 +2652,44 @@
         }
       ],
       "advisory": true,
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "Headlamp de/glossary.json 'Planungssperre aufheben'; Headlamp sv/glossary.json Avblockera; convention (no nb source found)",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-update-strategy",
+      "domain": "kubernetes",
+      "definition": "How a workload replaces its pods when it changes.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Update Strategy",
+          "locale": "en",
+          "status": "approved"
+        },
+        {
+          "text": "oppdateringsstrategi",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "oppdateringsstrategien"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp sv/glossary.json Uppdateringsstrategi",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-volume",
       "domain": "kubernetes",
+      "definition": "Storage that containers in a pod can mount.",
       "source": "terminology",
       "terms": [
         {
@@ -1342,12 +2711,115 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po volume=>volum; https://github.com/cockpit-project/cockpit-machines/blob/acd4b022a8bd76110e09cbd8ff313a9445e72b13/po/nb_NO.po Volume=>Volum; https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-volume-mount",
+      "domain": "kubernetes",
+      "definition": "A volume mounted at a path in a container.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Volume Mount",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Volume Mounts"
+          ]
+        },
+        {
+          "text": "volummontering",
+          "locale": "nb",
+          "status": "approved",
+          "forms": [
+            "volummonteringen",
+            "volummonteringer",
+            "volummonteringene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po 'NFS mount'=>'NFS-montering'; https://git.proxmox.com/?p=proxmox-i18n.git;a=blob_plain;f=nb.po 'Mount Point'=>'Monteringspunkt'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-webhook",
+      "domain": "kubernetes",
+      "definition": "An HTTP callback that the API server calls on an event.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Webhook",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Webhooks"
+          ]
+        },
+        {
+          "text": "webhook",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Loanword, as in GitLab.",
+          "forms": [
+            "webhooken",
+            "webhooks",
+            "webhookene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/locale/nb_NO/gitlab.po Webhooks=>Webhooks",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
+    },
+    {
+      "id": "headlamp-webhook-configuration",
+      "domain": "kubernetes",
+      "definition": "The registration of an admission webhook with the API server.",
+      "source": "terminology",
+      "terms": [
+        {
+          "text": "Webhook Configuration",
+          "locale": "en",
+          "status": "approved",
+          "forms": [
+            "Webhook Configurations"
+          ]
+        },
+        {
+          "text": "webhook-konfigurasjon",
+          "locale": "nb",
+          "status": "approved",
+          "note": "Mutating and Validating are muterende and validerende.",
+          "forms": [
+            "webhook-konfigurasjonen",
+            "webhook-konfigurasjoner",
+            "webhook-konfigurasjonene"
+          ]
+        }
+      ],
+      "properties": {
+        "evidence": "Headlamp de/glossary.json Mutierende Webhook-Konfigurationen",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     },
     {
       "id": "headlamp-workload",
       "domain": "kubernetes",
+      "definition": "An application running on the cluster, and the resources that run it.",
       "source": "terminology",
       "terms": [
         {
@@ -1362,6 +2834,7 @@
           "text": "arbeidsbelastning",
           "locale": "nb",
           "status": "approved",
+          "note": "Microsoft and Cockpit term. SKIP keeps workload(s) in prose.",
           "forms": [
             "arbeidsbelastningen",
             "arbeidsbelastninger",
@@ -1369,8 +2842,12 @@
           ]
         }
       ],
-      "created_at": "2026-10-15T22:19:55Z",
-      "updated_at": "2026-10-15T22:19:55Z"
+      "properties": {
+        "evidence": "https://azure.microsoft.com/nb-no/resources/cloud-computing-dictionary/what-is-kubernetes/ 'arbeidsbelastninger'; https://github.com/cockpit-project/cockpit/blob/ae346097fff6adc6816eeb5a5af88e639a6156f5/po/nb_NO.po; contra https://skip.kartverket.no/docs/kom-i-gang/praktisk-intro/kubernetes/retningslinjer-for-kubernetes 'workloads'",
+        "research": "docs/development/i18n/norwegian-terminology.md"
+      },
+      "created_at": "2026-10-16T07:43:06Z",
+      "updated_at": "2026-10-16T07:43:06Z"
     }
   ]
 }
