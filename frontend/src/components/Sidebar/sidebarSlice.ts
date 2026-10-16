@@ -70,6 +70,12 @@ export interface SidebarEntry {
    * Custom style overrides for subheader entries.
    */
   sx?: SxProps<Theme>;
+  /**
+   * The package name of the plugin that registered this entry. Set by
+   * Headlamp. The label is translated with the plugin's translations and the
+   * language packs, using the label as the key.
+   */
+  pluginName?: string;
 }
 
 export interface SidebarState {

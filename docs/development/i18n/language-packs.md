@@ -179,9 +179,14 @@ table and Material UI strings that a pack translates with `tableLocale` and
 changed.
 
 Text that is still in plain English does not go through `t()`. Either the
-plugin renders it directly, or it passes the text to Headlamp without `t()`,
-as many plugins do with sidebar labels. To translate this text, the plugin
-must be changed.
+plugin renders it directly, or it passes the text to Headlamp without `t()`.
+To translate this text, the plugin must be changed.
+
+Sidebar entry labels are an exception. For an entry that a plugin registers
+while it loads, Headlamp looks up the label in the plugin's translations,
+with the label as the key. To translate the label, add it to the plugin's
+catalog in the pack. Labels of entries registered later, for example from a
+callback, are not translated.
 
 ## Updating a pack
 

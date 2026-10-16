@@ -27,6 +27,7 @@ import { formatClusterPathParam, getClusterPrefixedPath } from '../../lib/cluste
 import { useSelectedClusters } from '../../lib/k8s';
 import { createRouteURL } from '../../lib/router/createRouteURL';
 import { getRoute } from '../../lib/router/getRoute';
+import { useTranslation as usePluginTranslation } from '../../plugin/pluginI18n';
 import ListItemLink from './ListItemLink';
 import { SidebarEntry } from './sidebarSlice';
 
@@ -89,6 +90,8 @@ const SidebarItemBase = memo((props: SidebarItemProps & { clusters?: string[] })
     entryType = 'link',
     sx,
     clusters = [],
+    // eslint-disable-next-line no-unused-vars -- make sure not to pass it to the list item
+    pluginName,
     ...other
   } = props;
 
@@ -238,11 +241,24 @@ const SidebarItemWithCluster = memo((props: SidebarItemProps) => {
   return <SidebarItemBase {...props} clusters={clusters} />;
 });
 
-const SidebarItem = memo((props: SidebarItemProps) => {
+const SidebarItemForCluster = memo((props: SidebarItemProps) => {
   if (props.useClusterURL) {
     return <SidebarItemWithCluster {...props} />;
   }
   return <SidebarItemBase {...props} />;
+});
+
+/** A sidebar entry registered by a plugin. The label is translated with the plugin's translations. */
+const PluginSidebarItem = memo((props: SidebarItemProps) => {
+  const { t, ready } = usePluginTranslation(props.pluginName);
+  return <SidebarItemForCluster {...props} label={ready ? t(props.label) : props.label} />;
+});
+
+const SidebarItem = memo((props: SidebarItemProps) => {
+  if (props.pluginName) {
+    return <PluginSidebarItem {...props} />;
+  }
+  return <SidebarItemForCluster {...props} />;
 });
 
 export default SidebarItem;

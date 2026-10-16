@@ -134,6 +134,7 @@ import {
   PluginSettingsDetailsProps,
   setPluginSettingsComponent,
 } from './pluginsSlice';
+import { getRegisteringPlugin } from './registeringPlugin';
 
 export { DefaultCreateProject } from '../redux/projectsSlice';
 
@@ -348,6 +349,7 @@ export function registerSidebarEntry({
       sidebar,
       entryType,
       sx,
+      pluginName: getRegisteringPlugin(),
     })
   );
 }

@@ -18,8 +18,11 @@ import List from '@mui/material/List';
 import { ThemeProvider } from '@mui/material/styles';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
+import i18next from '../../i18n/config';
+import { addPluginCatalog } from '../../i18n/languagePackCatalogs';
 import { createMuiTheme } from '../../lib/themes';
+import { initializePluginI18n } from '../../plugin/pluginI18n';
 import SidebarItem, { SidebarItemProps } from './SidebarItem';
 
 vi.mock('../../lib/k8s', () => ({
@@ -119,5 +122,56 @@ describe('SidebarItem', () => {
       fontWeight: '800',
       textTransform: 'none',
     });
+  });
+});
+
+describe('SidebarItem for a plugin entry', () => {
+  afterEach(async () => {
+    await i18next.changeLanguage('en');
+    vi.unstubAllGlobals();
+  });
+
+  it("shows the label from the plugin's translations", async () => {
+    addPluginCatalog(
+      'de',
+      'sidebar-plugin',
+      '/language-packs/de/plugins/sidebar-plugin/translation.json'
+    );
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) =>
+        String(url).endsWith('/language-packs/de/plugins/sidebar-plugin/translation.json')
+          ? { ok: true, json: async () => ({ Overview: 'Übersicht' }) }
+          : { ok: false, json: async () => ({}) }
+      )
+    );
+    await initializePluginI18n(
+      'sidebar-plugin',
+      { name: 'sidebar-plugin' },
+      '/plugins/sidebar-plugin'
+    );
+    await i18next.changeLanguage('de');
+
+    renderSidebarItem({
+      name: 'sidebar-plugin-overview',
+      label: 'Overview',
+      url: '/overview',
+      useClusterURL: false,
+      pluginName: 'sidebar-plugin',
+    });
+
+    expect(await screen.findByText('Übersicht')).toBeInTheDocument();
+  });
+
+  it('shows the registered label when the plugin has no translation for it', async () => {
+    renderSidebarItem({
+      name: 'other-plugin-overview',
+      label: 'Overview',
+      url: '/overview',
+      useClusterURL: false,
+      pluginName: 'other-plugin',
+    });
+
+    expect(await screen.findByText('Overview')).toBeInTheDocument();
   });
 });

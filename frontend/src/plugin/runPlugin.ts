@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { setRegisteringPlugin } from './registeringPlugin';
+
 /**
  * This is as a list of parameters to be passed to the `runPlugin` function.
  * To reduce the ability of overridden prototypes from snooping on data,
@@ -220,6 +222,9 @@ export function runPlugin(
   // Use the private Function reference and avoid the mutable array iterator.
   const executePlugin = privateConstruct(PrivateFunction, constructorArgs) as Function;
 
+  // Link registrations made while the plugin runs to the plugin, so that
+  // Headlamp can translate them with the plugin's catalogs.
+  setRegisteringPlugin(packageName);
   try {
     // This executes in the global scope,
     //   so the plugin can't access variables in this scope.
@@ -232,6 +237,8 @@ export function runPlugin(
     privateApply(executePlugin, undefined, values);
   } catch (e) {
     handleError(e, packageName, packageVersion);
+  } finally {
+    setRegisteringPlugin(undefined);
   }
 }
 
