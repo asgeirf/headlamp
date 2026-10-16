@@ -56,6 +56,12 @@ const pluginSupportedLocales: { [pluginName: string]: string[] } = {};
 // reacts to the same language change starts its own duplicate request.
 const pendingLocaleLoads: { [key: string]: Promise<void> } = {};
 
+// Hooks that wait for Headlamp to read a plugin's `headlamp.i18n` setting.
+// Plugins run before their i18n is initialized, so their components can render
+// before Headlamp reads the setting. Each hook here retries after
+// initialization.
+const i18nInitializedListeners = new Set<(pluginName: string) => void>();
+
 // The language most recently asked for. Concurrent switches can finish out of
 // order - a slow fetch for one locale landing after a later, faster one - so
 // completions that are no longer the active request are dropped instead of
@@ -285,6 +291,8 @@ export function useTranslation(pluginNameParam?: string): UseTranslationResult {
 
   // Initialize plugin translations when plugin name is available
   useEffect(() => {
+    let cancelled = false;
+
     async function initializeTranslations() {
       if (!pluginName) {
         console.error('useTranslation: No plugin name available. Plugin i18n will not work.');
@@ -336,6 +344,9 @@ export function useTranslation(pluginNameParam?: string): UseTranslationResult {
           pluginPath,
           supportedLocales
         );
+        if (cancelled) {
+          return;
+        }
         setInstance(pluginInstance);
         setReady(true);
       } catch (error) {
@@ -345,6 +356,20 @@ export function useTranslation(pluginNameParam?: string): UseTranslationResult {
     }
 
     initializeTranslations();
+
+    // The component rendered before Headlamp read the plugin's locales, so retry
+    // after the plugin's i18n is initialized.
+    const retry = (initializedPlugin: string) => {
+      if (initializedPlugin === pluginName) {
+        initializeTranslations();
+      }
+    };
+    i18nInitializedListeners.add(retry);
+
+    return () => {
+      cancelled = true;
+      i18nInitializedListeners.delete(retry);
+    };
   }, [pluginName]);
 
   // Re-render once the plugin instance has actually switched language. This hook
@@ -491,6 +516,7 @@ export async function initializePluginI18n(
     } catch (error) {
       console.error(`Failed to initialize i18n for plugin ${pluginName}:`, error);
     }
+    i18nInitializedListeners.forEach(listener => listener(pluginName));
   } else {
     console.debug(`Plugin ${pluginName} does not have i18n enabled in package.json`);
   }

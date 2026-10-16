@@ -180,6 +180,28 @@ describe('pluginI18n', () => {
     await waitFor(() => expect(screen.getByTestId('out').textContent).toBe('Hallo'));
   });
 
+  it('translates a component that rendered before the plugin i18n was initialized', async () => {
+    fetchSpy.mockResolvedValue({ ok: true, status: 200, json: async () => ({ Hello: 'Hallo' }) });
+    mainI18n.language = 'de';
+    mainI18n.resolvedLanguage = 'de';
+
+    // Plugins run, and can render, before Headlamp reads their package.json.
+    function Widget() {
+      const { t } = useTranslation('early-plugin');
+      return React.createElement('div', { 'data-testid': 'early' }, t('Hello') as string);
+    }
+    render(React.createElement(Widget));
+    await waitFor(() => expect(screen.getByTestId('early').textContent).toBe('Hello'));
+
+    await initializePluginI18n(
+      'early-plugin',
+      { name: 'early-plugin', headlamp: { i18n: ['en', 'de'] } },
+      '/plugins/early-plugin'
+    );
+
+    await waitFor(() => expect(screen.getByTestId('early').textContent).toBe('Hallo'));
+  });
+
   it('ignores a slow language change that a newer one has superseded', async () => {
     await initializePluginI18n(
       'race-plugin',
