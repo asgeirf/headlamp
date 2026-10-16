@@ -266,6 +266,13 @@ target languages, and one collection per plugin that has its own catalogs.
 kapi reads the catalogs with its i18next reader, which keeps the keys,
 plurals and `{{interpolations}}` as they are and translates only the values.
 
+The languages kapi translates ship as language plugins rather than as part of
+Headlamp: kapi writes Headlamp's catalogs in a language to
+`plugins/examples/language-<lang>/locales/<lang>/`, and the plugin adds the
+language to Headlamp with `registerLocale` (see
+[Adding a language with a plugin](../plugins/i18n.md#adding-a-language-with-a-plugin)).
+Norwegian Bokmål is in `plugins/examples/language-nb`.
+
 The approved terminology is kept in `.kapi/terms.json`: the Kubernetes
 concepts, their Norwegian forms (klynge, klyngen, klynger) and the kinds that
 stay in English (Deployment, ConfigMap). Each concept carries a definition,
@@ -309,8 +316,10 @@ translations no reviewer has approved yet. Until a reviewer approves them,
 `CPU` or `Deployments`, as identical to their source.
 
 To add a target language, add it to `defaults.target_languages` in
-`kapi.yaml`, follow [For Adding a New Language](#for-adding-a-new-language),
-and add its terms to `.kapi/terms.json`.
+`kapi.yaml`, copy `plugins/examples/language-nb` to
+`plugins/examples/language-<lang>` with the new code, label and Material UI
+and table locales in `src/locale.ts`, and add the language's terms to
+`.kapi/terms.json`. `kapi up` then writes the catalogs into the new plugin.
 
 ## Deprecated Tools
 
