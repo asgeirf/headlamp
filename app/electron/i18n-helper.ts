@@ -44,3 +44,12 @@ if (fs.existsSync(frontendLocalesPath)) {
 // If no locales found, default to English
 export const CURRENT_LOCALES = currentLocales.length > 0 ? currentLocales : ['en'];
 export const LOCALES_DIR = frontendLocalesPath;
+
+// Directory of the language packs: HEADLAMP_CONFIG_LANGUAGE_PACKS_DIR if set
+// (the backend uses the same variable), otherwise the language-packs resources
+// directory that a build manifest can add to a packaged app.
+export const LANGUAGE_PACKS_DIR: string | undefined =
+  process.env.HEADLAMP_CONFIG_LANGUAGE_PACKS_DIR ||
+  (isDev || isRunningInNode
+    ? undefined
+    : path.join((process as any).resourcesPath, 'language-packs'));

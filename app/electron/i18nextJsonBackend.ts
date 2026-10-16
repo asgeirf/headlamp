@@ -23,21 +23,33 @@ import path from 'node:path';
  * backend's unused format parsers in the Electron startup heap.
  *
  * @param localesDir - Directory containing locale and namespace JSON files.
+ * @param extraStrings - Strings that override a catalog's strings, such as the
+ *   strings from language packs. A language with extra strings does not need a
+ *   JSON file.
  * @returns An i18next backend that reads JSON locale resources.
  */
-export function createJsonBackend(localesDir: string): BackendModule {
+export function createJsonBackend(
+  localesDir: string,
+  extraStrings: (language: string, namespace: string) => Record<string, string> | undefined = () =>
+    undefined
+): BackendModule {
   return {
     type: 'backend',
     init() {},
     read(language, namespace, callback) {
+      const extra = extraStrings(language, namespace);
       readFile(path.join(localesDir, language, `${namespace}.json`), 'utf8', (error, data) => {
         if (error) {
-          callback(error, false);
+          if (extra) {
+            callback(null, extra);
+          } else {
+            callback(error, false);
+          }
           return;
         }
 
         try {
-          callback(null, JSON.parse(data));
+          callback(null, { ...JSON.parse(data), ...extra });
         } catch (error) {
           callback(error as Error, false);
         }

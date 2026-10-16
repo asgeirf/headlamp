@@ -51,6 +51,7 @@ import { createCertificateSetup } from './certificates';
 import { setupClusterRegistrationHandler } from './cluster-registration';
 import { setupDevelopmentPluginsHandlers } from './developmentPlugins';
 import { startWindowsVMDetection, waitForWindowsVMDetection } from './hardwareAcceleration';
+import { LANGUAGE_PACKS_DIR } from './i18n-helper';
 import i18n from './i18next.config';
 import {
   getLegalDocumentsResourcePath,
@@ -917,6 +918,16 @@ async function startServer(
     }
   } catch (err) {
     // Directory doesn't exist or is not readable — ignore and continue.
+  }
+
+  // Pass the language packs directory to the backend, so that it serves the
+  // same packs that the menus use.
+  try {
+    if (LANGUAGE_PACKS_DIR && (await fsPromises.stat(LANGUAGE_PACKS_DIR)).isDirectory()) {
+      process.env.HEADLAMP_CONFIG_LANGUAGE_PACKS_DIR = LANGUAGE_PACKS_DIR;
+    }
+  } catch (err) {
+    // The language packs directory does not exist.
   }
 
   serverArgs = serverArgs.concat([

@@ -15,30 +15,41 @@
  */
 
 import i18next from 'i18next';
-import { CURRENT_LOCALES, LOCALES_DIR } from './i18n-helper';
+import { CURRENT_LOCALES, LANGUAGE_PACKS_DIR, LOCALES_DIR } from './i18n-helper';
 import { createJsonBackend } from './i18nextJsonBackend';
+import { readLanguagePackAppStrings } from './languagePacks';
 
-i18next.use(createJsonBackend(LOCALES_DIR)).init({
-  debug: process.env.NODE_ENV === 'development',
-  fallbackLng: 'en',
-  supportedLngs: CURRENT_LOCALES,
-  // CURRENT_LOCALES comes from the lowercase locale directory names, so region codes
-  // like pt-BR have to be lowercased to match them and to resolve the load path.
-  lowerCaseLng: true,
-  ns: ['app'],
-  defaultNS: 'app',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-    format: function (value, format, lng) {
-      // https://www.i18next.com/translation-function/formatting
-      if (format === 'number') return new Intl.NumberFormat(lng).format(value);
-      if (format === 'date') return new Intl.DateTimeFormat(lng).format(value);
-      return value;
+// Menu and dialog strings from the language packs. They override Headlamp's
+// strings. Languages that only a pack provides are added to supportedLngs.
+const packStrings = readLanguagePackAppStrings(LANGUAGE_PACKS_DIR);
+
+i18next
+  .use(
+    createJsonBackend(LOCALES_DIR, (language, namespace) =>
+      namespace === 'app' ? packStrings.get(language) : undefined
+    )
+  )
+  .init({
+    debug: process.env.NODE_ENV === 'development',
+    fallbackLng: 'en',
+    supportedLngs: [...new Set([...CURRENT_LOCALES, ...packStrings.keys()])],
+    // CURRENT_LOCALES comes from the lowercase locale directory names, so region codes
+    // like pt-BR have to be lowercased to match them and to resolve the load path.
+    lowerCaseLng: true,
+    ns: ['app'],
+    defaultNS: 'app',
+    interpolation: {
+      escapeValue: false, // not needed for react as it escapes by default
+      format: function (value, format, lng) {
+        // https://www.i18next.com/translation-function/formatting
+        if (format === 'number') return new Intl.NumberFormat(lng).format(value);
+        if (format === 'date') return new Intl.DateTimeFormat(lng).format(value);
+        return value;
+      },
     },
-  },
-  returnEmptyString: false,
-  nsSeparator: '|',
-  keySeparator: false,
-});
+    returnEmptyString: false,
+    nsSeparator: '|',
+    keySeparator: false,
+  });
 
 export default i18next;
