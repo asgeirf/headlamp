@@ -1,0 +1,35 @@
+version: v1
+# This project's stable identity. It survives a rename, a move and a clone,
+# and everything kapi records about the project is keyed on it. Keep it.
+id: prj_vxxhvrrcqofpm33jq2jtckjyci
+name: headlamp
+defaults:
+  source_language: en
+  # `kapi up` translates into each of these languages. Each language is
+  # shipped as a language pack in language-packs/<lang>, which the backend
+  # serves.
+  target_languages:
+    - nb
+
+# Collections are the files that kapi reads. English is the source, and the
+# translations are written to the language packs.
+collections:
+  # Headlamp's UI catalogs: one i18next JSON file per namespace (translation,
+  # glossary, app). The keys are the English strings, `|` separates the
+  # namespace, and `//context:` marks a context variant. The i18next reader
+  # keeps plural forms together and does not change {{interpolations}}.
+  - name: headlamp-ui
+    content:
+      - path: "frontend/src/i18n/locales/en/*.json"
+        format: i18next
+        target: "language-packs/{lang}/headlamp/{name}.json"
+
+  # Plugin catalogs: one collection for each plugin that the packs translate.
+  # Each collection reads the plugin's English catalog and writes
+  # plugins/<package name>/ in each pack. language-packs/sources.json lists the
+  # same plugins.
+  - name: plugin-pod-counter
+    content:
+      - path: "plugins/examples/pod-counter/locales/en/translation.json"
+        format: i18next
+        target: "language-packs/{lang}/plugins/@kinvolk/headlamp-pod-counter/translation.json"
