@@ -792,7 +792,7 @@
   "No rules data to be shown.": "Ingen regeldata å vise.",
   "Section Name": "Seksjonsnavn",
   "Parent Status": "Overordnet status",
-  "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search": "Trykk<1>{formatShortcutKey(searchShortcutKey)}</1>for å søke",
+  "Press<1>{{shortcut}}</1>to search": "Trykk<1>{{shortcut}}</1>for å søke",
   "Search resources, pages, clusters by name": "Søk i ressurser, sider og klynger etter navn",
   "Current Namespace": "Gjeldende navnerom",
   "Set namespace: {{namespace}}": "Angi navnerom: {{namespace}}",
