@@ -118,29 +118,32 @@ export function GlobalSearch({ isIconButton }: { isIconButton?: boolean }) {
             gap={0.5}
             sx={{ color: theme.palette.navbar.searchHint, pointerEvents: 'none' }}
           >
-            <Trans>
-              Press
-              <Box
-                component="kbd"
-                sx={theme => ({
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  border: '1px solid',
-                  borderRadius: '4px',
-                  borderColor: theme.palette.divider,
-                  lineHeight: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minWidth: '24px',
-                  height: '24px',
-                  px: 0.5,
-                })}
-              >
-                {formatShortcutKey(searchShortcutKey)}
-              </Box>
-              to search
-            </Trans>
+            <Trans
+              t={t}
+              i18nKey="Press<1>{{shortcut}}</1>to search"
+              values={{ shortcut: formatShortcutKey(searchShortcutKey) }}
+              components={{
+                1: (
+                  <Box
+                    component="kbd"
+                    sx={theme => ({
+                      fontSize: '12px',
+                      fontFamily: 'monospace',
+                      border: '1px solid',
+                      borderRadius: '4px',
+                      borderColor: theme.palette.divider,
+                      lineHeight: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minWidth: '24px',
+                      height: '24px',
+                      px: 0.5,
+                    })}
+                  />
+                ),
+              }}
+            />
           </Box>
         ),
       }}

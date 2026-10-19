@@ -798,7 +798,7 @@
   "No rules data to be shown.": "No rules data to be shown.",
   "Section Name": "Section Name",
   "Parent Status": "",
-  "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search": "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search",
+  "Press<1>{{shortcut}}</1>to search": "Press<1>{{shortcut}}</1>to search",
   "Search resources, pages, clusters by name": "Search resources, pages, clusters by name",
   "Current Namespace": "Current Namespace",
   "Set namespace: {{namespace}}": "Set namespace: {{namespace}}",

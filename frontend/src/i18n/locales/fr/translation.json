@@ -798,7 +798,7 @@
   "No rules data to be shown.": "Aucune donnée sur les règles à afficher.",
   "Section Name": "Nom de section",
   "Parent Status": "Statut du parent",
-  "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search": "Appuyez sur<1>{formatShortcutKey(searchShortcutKey)}</1>pour rechercher",
+  "Press<1>{{shortcut}}</1>to search": "Appuyez sur<1>{{shortcut}}</1>pour rechercher",
   "Search resources, pages, clusters by name": "Rechercher des ressources, pages, clusters par nom",
   "Current Namespace": "Espace de noms actuel",
   "Set namespace: {{namespace}}": "Définir l'espace de noms : {{namespace}}",

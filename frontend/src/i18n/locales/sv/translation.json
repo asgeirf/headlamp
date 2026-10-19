@@ -792,7 +792,7 @@
   "No rules data to be shown.": "Det finns inga regeldata att visa.",
   "Section Name": "Avsnittsnamn",
   "Parent Status": "",
-  "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search": "Tryck på<1>{formatShortcutKey(searchShortcutKey)}</1> för att söka",
+  "Press<1>{{shortcut}}</1>to search": "Tryck på<1>{{shortcut}}</1> för att söka",
   "Search resources, pages, clusters by name": "Sök resurser, sidor, kluster med namn",
   "Current Namespace": "Aktuell namnrymd",
   "Set namespace: {{namespace}}": "Ange namnrymd: {{namespace}}",

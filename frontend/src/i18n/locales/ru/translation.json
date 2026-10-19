@@ -804,7 +804,7 @@
   "No rules data to be shown.": "Нет данных о правилах для отображения.",
   "Section Name": "Название раздела",
   "Parent Status": "",
-  "Press<1>{formatShortcutKey(searchShortcutKey)}</1>to search": "Нажмите <1>{formatShortcutKey(searchShortcutKey)}</1>, чтобы выполнить поиск",
+  "Press<1>{{shortcut}}</1>to search": "Нажмите <1>{{shortcut}}</1>, чтобы выполнить поиск",
   "Search resources, pages, clusters by name": "Поиск ресурсов, страниц, кластеров по названию",
   "Current Namespace": "Текущее пространство имён",
   "Set namespace: {{namespace}}": "Установить пространство имён: {{namespace}}",

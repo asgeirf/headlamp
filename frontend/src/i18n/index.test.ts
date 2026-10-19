@@ -195,6 +195,20 @@ describe('The locales are not empty translations', () => {
   });
 });
 
+describe('The English keys', () => {
+  // When a <Trans> child is a JSX expression such as {format(key)}, the
+  // extractor writes the expression's source into the key, but at runtime
+  // <Trans> looks the string up with the expression's value, so no
+  // translation is ever found. Pass the value with `values` and {{name}}.
+  test.each(['app', 'glossary', 'translation'])('in %s contain no JSX expressions', namespace => {
+    const filename = path.resolve('src', 'i18n', 'locales', 'en', `${namespace}.json`);
+    const keys = Object.keys(JSON.parse(fs.readFileSync(filename, 'utf8')));
+    const singleBrace = /(^|[^{])\{[^{}]+\}(?!\})/;
+
+    expect(keys.filter(key => singleBrace.test(key))).toEqual([]);
+  });
+});
+
 describe('i18next parser configuration', () => {
   test('uses the shared locale configuration', () => {
     expectTypeOf(sharedConfig).toEqualTypeOf<SharedI18nextConfig>();
